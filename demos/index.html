@@ -446,14 +446,15 @@ $(document).trigger('updateshadowdom');
         <p id="Shiv-dynamic-html5">
             <b class="header">Dynamically adding HTML5 markup</b><br>
             Additionally it implements the following manipulation methods to allow dynamic creation of HTML5 elements: <tt>.updatePolyfill()</tt>, <tt>.htmlPolyfill()</tt>, <tt>.appendPolyfill()</tt>, <tt>.prependPolyfill()</tt>, <tt>.afterPolyfill()</tt>, <tt>.beforePolyfill()</tt> <tt>.replaceWithPolyfill()</tt>, <tt>.appendPolyfillTo()</tt>, <tt>.prependPolyfillTo()</tt>, <tt>.insertPolyfillAfter()</tt>, <tt>.insertPolyfillBefore()</tt>, <tt>.replacePolyfillAll()</tt>
-<pre>
+<pre class="runnable">
 var html = '&lt;section&gt;&lt;form action="#"&gt;' +
-           '&lt;input type="text" placeholder="yay" name="test" required/&gt;' +
+           '&lt;input type="text" placeholder="name" name="test" required/&gt;' +
            '&lt;input type="date" required="required" name="test2" /&gt;' +
            '&lt;input type="submit" /&gt;' +
            '&lt;/form&gt;&lt;/section&gt;';
-$('#my-id').appendPolyfill(html);
+$('#Shiv-dynamic-html5-test').appendPolyfill(html);
 </pre>
+<div id="Shiv-dynamic-html5-test"> &nbsp; </div>
         </p>
             
         <p id="Shiv-updatePolyfill">
@@ -662,6 +663,7 @@ $.webshims.register('mediaelement', function($, webshims, window, document, unde
             $('.runnable').each(function () {
                 var code = this;
                 var button = '<div class="run" title="Run"></div>';
+                console.log ('da code', code);
                 $(button).insertBefore(code).bind('click', function () {
                     eval($(code).text());
                 });
