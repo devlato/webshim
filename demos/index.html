@@ -1,54 +1,66 @@
 <!DOCTYPE HTML>
 <html>
-<head>
-  <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="chrome=1" />
-  <meta name="viewport" content="width=device-width">
-  <title>Webshim</title>
-  <link href="css/styles.css" rel="stylesheet" />
 
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-  <script>
-    // set options for html5shiv
-    if(!window.html5){
-      window.html5 = {}; 
-    }
-    window.html5.shivMethods = false;
-  </script>
-  <script src="js-webshim/minified/extras/modernizr-custom.js"></script>
-  
-  <script src="js-webshim/minified/polyfiller.js"></script>
-  <script src="demo-js/demo.js"></script>
-  <script>
-    $.webshims.polyfill();  // load all available polyfills
-  </script>
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="viewport" content="width=device-width">
+    <title>Webshim</title>
+    <link href="css/styles.css" rel="stylesheet" />
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script>
+        // set options for html5shiv
+        if (!window.html5) {
+            window.html5 = {};
+        }
+        window.html5.shivMethods = false;
+    </script>
+    <script src="js-webshim/minified/extras/modernizr-custom.js"></script>
+
+    <script src="js-webshim/minified/polyfiller.js"></script>
+    <script src="demo-js/demo.js"></script>
+    <script>
+        $.webshims.polyfill(); // load all available polyfills
+    </script>
 
 </head>
+
 <body>
 
-  <div id="sidebar" class="interface">
+    <div id="sidebar" class="interface">
 
-    <a class="toc_title" href="#">
-      Webshim <span class="version">(1.11.1)</span>
-    </a>
-    <ul class="toc_section">
-      <li>&raquo; <a href="https://github.com/aFarkas/webshim">GitHub Repository</a></li>
-    </ul>
+        <a class="toc_title" href="#">
+            Webshim <span class="version">(1.11.1)</span>
+        </a>
+        <ul class="toc_section">
+            <li>&raquo; <a href="https://github.com/aFarkas/webshim">GitHub Repository</a></li>
+        </ul>
 
-    <a class="toc_title" href="#introduction">
-      Introduction
-    </a>
-    <ul class="toc_section">
-      <li>– <a href="#Introduction-installation">Installation</a></li>
-      <li>– <a href="#Introduction-configuration">Configuration</a></li>
-      <li>- <a href="#Introduction-fire-when-ready">Fire When Ready</a></li>
-      <li>- <a href="#Introduction-dom-abstractions">DOM Abstractions</a></li>
-      <li>- <a href="#Introduction-extending">Writing a New Polyfill</a></li>
-    </ul>
+        <a class="toc_title" href="#introduction"> Introduction </a>
+
+         <a class="toc_title" href="#Guide-installation"> Guide </a>
+        <ul class="toc_section">
+            <li>– <a href="#Guide-installation">Installation</a>
+            </li>
+            <li>– <a href="#Guide-configuration">Configuration</a>
+            </li>
+            <li>- <a href="#Guide-fire-when-ready">Fire When Ready</a>
+            </li>
+            <li>- <a href="#Guide-dom-abstractions">DOM Abstractions</a>
+            </li>
+        </ul>
+
+        <a class="toc_title" href="#Customizing"> Customizing </a>
+        <ul class="toc_section">
+            <li>- <a href="#Customizing-modernizr">Modernizr</a>
+            </li>
+            <li>- <a href="#Customizing-extending">Writing a New Polyfill</a>
+            </li>
+        </ul>
 
 
-
-    <!--
+        <!--
     <a class="toc_title" href="#Events">
       shiv and innerShiv
     </a>
@@ -115,76 +127,73 @@
     </ul>
   -->
 
-  </div>
+    </div>
 
-  <div class="container">
+    <div class="container">
 
-    <p>
-      <img id="logo" src="images/webshim2.png" alt="webshim" />
-    </p>
+        <p>
+            <img id="logo" src="images/webshim2.png" alt="webshim" />
+        </p>
 
-    <p>
-      Webshim is a <a href="http://remysharp.com/2010/10/08/what-is-a-polyfill/">polyfill</a> library that enables you to reliably use HTML5 features across browsers, even if native support is lacking.
-    </p>
+        <p>
+            Webshim is a <a href="http://remysharp.com/2010/10/08/what-is-a-polyfill/">polyfill</a> library that enables you to reliably use HTML5 features across browsers, even if native support is lacking.
+        </p>
 
-    <p>
-      The project is <a href="https://github.com/aFarkas/webshim/">hosted on GitHub</a>.
-      Webshim is available for use under the <a href="http://github.com/aFarkas/webshim/blob/master/MIT-LICENSE.txt">MIT software license</a>.
-    </p>
+        <p>
+            The project is <a href="https://github.com/aFarkas/webshim/">hosted on GitHub</a>, and is available for use under the <a href="http://github.com/aFarkas/webshim/blob/master/MIT-LICENSE.txt">MIT software license</a>.
+        </p>
 
-    <p>
-      You can report bugs and discuss features on the
-      <a href="https://github.com/aFarkas/webshim/issues">GitHub issues page</a>,
-      or send tweets to <a href="http://twitter.com/aFarkas">@aFarkas</a>.
-    </p>
+        <p>
+            You can report bugs and discuss features on the
+            <a href="https://github.com/aFarkas/webshim/issues">GitHub issues page</a>, or send tweets to <a href="http://twitter.com/aFarkas">@aFarkas</a>.
+        </p>
 
-    <h2 id="downloads">
+        <h2 id="downloads">
       Downloads &amp; Dependencies
       <span style="padding-left: 7px; font-size:11px; font-weight: normal;" class="interface">(Right-click, and use "Save As")</span>
     </h2>
 
-    <table>
-      <tr>
-        <td>
-          <a href="http://corrupt-system.de/webshims-stable.zip" class="download-button">
-              <strong><i>Version 1.11.1</i></strong>
-            </a>
-        </td>
-        <td class="text"> </td>
-      </tr>
-    </table>
+        <table>
+            <tr>
+                <td>
+                    <a href="http://corrupt-system.de/webshims-stable.zip" class="download-button">
+                        <strong><i>Version 1.11.1</i></strong>
+                    </a>
+                </td>
+                <td class="text"></td>
+            </tr>
+        </table>
 
-    <p>
-      Webshim depends on <a href="http://jquery.com/">jQuery</a> and <a href="http://www.modernizr.com/">Modernizr</a>.
-    </p>
+        <p>
+            Webshim depends on <a href="http://jquery.com/">jQuery</a> and <a href="http://www.modernizr.com/">Modernizr</a>.
+        </p>
 
-    <h2 id="introduction">Introduction</h2>
+        <h2 id="introduction">Introduction</h2>
 
-    <p>
-      There are many appealing HTML5 features such as form validation, geolocation, and FileReader which ease the burden of writing rich web applications.
-    </p>
+        <p>
+            There are many appealing HTML5 features such as form validation, geolocation, and FileReader which ease the burden of writing rich web applications.
+        </p>
 
-    <p>
-      Using these features responsibly requires supporting the browsers and versions that the audience is likely to use, without breaking usability. There are two common ways to support these new features. Abstractions declare a library or piece of code that invents a new API which you can use to access the feature. jQuery is a good example; It defines an API that provides access to features that are buggy or incomplete, by coming up with it's own format. $.ajax is an abstraction over xmlhttprequest which is a standard that has varying support. The other solution is called polyfilling, which fills in the gaps in a lacking browser rather than than designing a new API. 
-    </p>
+        <p>
+            Using these features responsibly requires supporting the browsers and versions that the audience is likely to use, without breaking usability. There are two common ways to support these new features. Abstractions declare a library or piece of code that
+            invents a new API which you can use to access the feature. jQuery is a good example; It defines an API that provides access to features that are buggy or incomplete, by coming up with it's own format. $.ajax is an abstraction over xmlhttprequest
+            which is a standard that has varying support. The other solution is called polyfilling, which fills in the gaps in a lacking browser rather than than designing a new API.
+        </p>
 
-    <p>
-      <strong>Webshim is a polyfill solution.</strong> It adds these features in a way that is transparent to the end user and developer. It enables coding against the browser standards rather than learning and maintaining abstractions. It results in less code that is simpler and easier to maintain.
-    </p>
+        <p>
+            <strong>Webshim is a polyfill solution.</strong> It adds these features in a way that is transparent to the end user and developer. It enables coding against the browser standards rather than learning and maintaining abstractions. It results
+            in less code that is simpler and easier to maintain.
+        </p>
 
-    <p>
-      Many of the examples that follow are runnable. Click the <i>play</i> button
-      to execute them.
-    </p>
+        <p>
+            Many of the examples that follow are runnable. Click the <i>play</i> button to execute them.
+        </p>
 
 
-    <p id="Introduction-installation">
-      <b class="header">Installation</b><br>
-
-      Take the 'js-webshim' folder and add it to your project. (You will find a minified and a dev folder there.)
-
-      Here is an example showing how to include dependencies and load webshims:  
-<pre>
+        <p id="Guide-installation">
+            <b class="header">Installation</b>
+            <br>Take the 'js-webshim' folder and add it to your project. (You will find a minified and a dev folder there.) Here is an example showing how to include dependencies and load webshims:
+            <pre>
 &lt;script src="js/jquery-1.9.1.js"&gt;&lt;/script&gt;
 &lt;script src="js/modernizr-yepnope-custom.js"&gt;&lt;/script&gt;
 &lt;script src="js-webshim/minified/polyfiller.js"&gt;&lt;/script&gt;
@@ -197,105 +206,81 @@
   });
 &lt;/script&gt;   
 </pre>
-      <small>Here are the <a href="http://modernizr.com/download/#-canvas-audio-video-input-inputtypes-localstorage-sessionstorage-geolocation-shiv-cssclasses-addtest-prefixed-testprop-testallprops-prefixes-domprefixes-elem_track-load"> Modernizr detections used by webshim</a>.</small>
-    </p>
+        </p>
 
 
-    <p id="Introduction-configuration">
-      <b class="header">Configuration</b> <br>
-      
-      The polyfill method accepts an optional whitespace-separated feature list. Call it as soon as possible (before DOM ready.)
-<pre>
-$.webshims.polyfill('json-storage geolocation');
-</pre>         
-      <strong>Available features</strong>
-            
-      <ul style="margin: 0">
-        <li style="margin-bottom: 0">json-storage</li>
-        <li style="margin-bottom: 0">es5</li>
-        <li style="margin-bottom: 0">geolocation</li>
-        <li style="margin-bottom: 0">canvas</li>
-        <li style="margin-bottom: 0">forms</li>
-        <li style="margin-bottom: 0">forms-ext</li>
-        <li style="margin-bottom: 0">mediaelement</li>
-        <li style="margin-bottom: 0">track</li>
-        <li style="margin-bottom: 0">filereader</li>
-        <li style="margin-bottom: 0">details</li>
-      </ul>
-      
-      <p>
-        If you have any trouble setting up Webshims lib, set <code>$.webshims.debug</code> to true and open your console:
-      </p>
-<pre>              
-&lt;script&gt;
-  $.webshims.debug = true;
-  $.webshims.polyfill();
-&lt;/script&gt; 
-</pre>     
-      <p>
-        If you dont want any log messsages, simply set <code>$.webshims.debug</code> explicitly to <code>false</code>.
-      </p>
-      <strong>Custom Modernizr build</strong>
-      <p>
-        Webshims lib does not need every Modernizr test and supports creating a <a href="http://modernizr.com/download/#-canvas-audio-video-input-inputtypes-localstorage-sessionstorage-geolocation-shiv-cssclasses-addtest-prefixed-testprop-testallprops-prefixes-domprefixes-elem_track-load">custom Modernizr build</a>. (Webshims lib uses <a href="http://requirejs.org/">requireJS</a> or <a href="https://gist.github.com/aFarkas/936413">sssl</a> as a script loader, if this is included, if not it uses Modernizr.load/yepnope.)
-      </p>
-      
-      <strong>changing Options path to shims folder</strong>
-      
-      <p>
-        Shims folder is computed automatically. If the name of polyfiller.js is changed <strong>and</strong> the polyfill-script is loaded async, this computation can be wrong and you have to set the folder manually. Here's an example of changing the basePath:
-      </p>
-<pre>
-$.webshims.setOptions("basePath", "/yourFolderTo/shims/");
-// or:
-$.webshims.setOptions({
-  basePath: "/yourFolderTo/shims/"
-});
-</pre>
+        <p id="Guide-configuration">
+            <b class="header">Configuration</b> 
+            <br>The polyfill method accepts an optional whitespace-separated feature list. Call it as soon as possible (before DOM ready.)
+            <pre> $.webshims.polyfill('json-storage geolocation'); </pre> 
+            <strong>Available Features</strong>
 
-    <p>
-      <code>setOptions</code> should always be called before the <code>polyfill</code> method.
-    </p>
+            <ul style="margin: 0">
+                <li style="margin-bottom: 0">json-storage</li>
+                <li style="margin-bottom: 0">es5</li>
+                <li style="margin-bottom: 0">geolocation</li>
+                <li style="margin-bottom: 0">canvas</li>
+                <li style="margin-bottom: 0">forms</li>
+                <li style="margin-bottom: 0">forms-ext</li>
+                <li style="margin-bottom: 0">mediaelement</li>
+                <li style="margin-bottom: 0">track</li>
+                <li style="margin-bottom: 0">filereader</li>
+                <li style="margin-bottom: 0">details</li>
+            </ul>
 
-    <p>The available options for <code>$.webshims.setOptions</code>:</p>
-      <ul>
-        <li><strong>extendNative</strong> (default: false): Webshims lib will automatically extend DOM-Objects with polyfilled methods and will additionally generate a jQuery plugin with this method name. If extendNative is set to false, webshims lib won't touch any DOM-Objects and will only implement jQuery plugins. Setting this option to false, might be also good for DOM performance (<a href="index.html#polyfill-abstractions">see also</a>).</li>
-        <li><strong>basePath</strong> (default: "automatially computed path to the shims folder"): If polyfiller.js was renamed <strong>and</strong> is loaded dynamically, the basePath should be changed manually.</li>
-        <li><strong>waitReady</strong> (default: true): If this option is true, jQuery's ready-event will be delayed until all needed features are ready to use. This option should be set to false, if webshims lib polyfiller.js is loaded async (see also Loading webshims async in the <a href="#polyfill-foucs">loading documentation</a>) or from bottom of the body element. This option can also be set to false, if a website is using only HTML5 markup APIs (pure HTML or $.attr) and do not use any DOM-/JS-APIs on DOM-ready. If this feature is set to false, which might be good against FOUCs, scripted access to polyfilled APIs have to be added inside of a <a href="#polyfill-ready"><code>$.webshims.ready</code></a> callback.</li>
-        <li><strong>disableShivMethods</strong> (default: true): Automatically disables the <a href="https://github.com/aFarkas/html5shiv">shivMethods</a> option of html5shiv.</li>
-      </ul>
-<pre>
+            <p>
+                <tt>setOptions</tt> should always be called before the <tt>polyfill</tt> method.
+            </p>
+
+            <p>The available options for <tt>$.webshims.setOptions</tt>:</p>
+            <ul>
+                <li><strong>extendNative</strong>  Webshims lib will automatically extend DOM-Objects with polyfilled methods and will additionally generate a jQuery plugin with this method name. If extendNative is set to false, webshims lib
+                    won't touch any DOM-Objects and will only implement jQuery plugins. Setting this option to false might improve DOM performance. <em>default: false</em>
+                </li>
+                <li><strong>basePath</strong> If polyfiller.js was renamed <strong>and</strong> is loaded dynamically, the basePath should be changed manually. <em>default: computed path to shims folder</em>
+                </li>
+                <li><strong>waitReady</strong> Setting this to true delays jQuery's ready-event until all polyfilled features are ready. This option should be set to false, if webshims lib polyfiller.js is loaded async (see
+                    also Loading webshims async in the <a href="#polyfill-foucs">loading documentation</a>) or from bottom of the body element. This option can also be set to false, if a website is using only HTML5 markup APIs (pure HTML or $.attr) and
+                    do not use any DOM-/JS-APIs on DOM-ready. If this feature is set to false, which might be good against FOUCs, scripted access to polyfilled APIs have to be added inside of a <a href="#polyfill-ready"><tt>$.webshims.ready</tt></a> callback. <em>default: true</em>
+                </li>
+                <li><strong>disableShivMethods</strong> Automatically disables the <a href="https://github.com/aFarkas/html5shiv">shivMethods</a> option of html5shiv. <em> default: true</em>
+                </li>
+                <li>
+                    <strong>debug</strong> Setting to true enables debug info to be printed in the developer console. <em>default: false</em>
+                </li>
+            </ul>
+            <pre>
 $.webshims.setOptions("extendNative", false);
 </pre> 
-    <p>
-      <code>setOptions</code> can also take a single options parameter:
-    </p>
-<pre>
+            <p>
+                <tt>setOptions</tt> can also take a single options parameter:
+            </p>
+            <pre>
 $.webshims.setOptions({
-extendNative: false
-});
-</pre>   
-    <p>
-      Feature specific options are nested options with the featurename as their key.
-    </p>
-<pre>
-$.webshims.setOptions({
-//configure generally option
-extendNative: false,
-
-//configure canvas-shim
-canvas: {
-  type: "flash" // use flashcanvas instead of excanvas as polyfill
-},
-
-//configure forms-shim
-forms: {
-  customMessages: true // implement customValidationMessages
-}
+  extendNative: false
 });
 </pre> 
-        <p>The polyfill-options can also be changed by using declarative markup, using a data-polyfill-cfg attribute with a valid JSON string on a script-element:</p>
-<pre>
+            <p>
+                Feature specific options are nested options with the featurename as their key.
+            </p>
+            <pre>
+$.webshims.setOptions({
+  // configure generally option
+  extendNative: false,
+
+  // configure canvas-shim
+  canvas: {
+    type: "flash" // use flashcanvas instead of excanvas as polyfill
+  },
+
+  // configure forms-shim
+  forms: { 
+    customMessages: true // implement customValidationMessages
+  }
+});
+</pre> 
+            <p>The polyfill-options can also be changed by using declarative markup, using a data-polyfill-cfg attribute with a valid JSON string on a script-element:</p>
+            <pre>
 &lt;script src="some.js" data-polyfill='{
 "basePath": "pathToYour/shims-folder/",
 "canvas": {
@@ -305,69 +290,106 @@ forms: {
 
 &lt;/script&gt;
 </pre>
+        </p>
 
-  </p>
 
+        <p id="Guide-fire-when-ready">
+            <b class="header">Fire When Ready</b> 
+            <br>
 
-    <p id="Introduction-fire-when-ready">
-      <b class="header">Fire When Ready</b> <br>
-
-      <p>Not every feature is ready immediately in all browsers; some shims might take time to load before you can use them. You can use one of jQuery's <code>ready</code> methods to delay working with elements until the DOM and any necessary shims are ready.</p>
-<pre>
+            <p>Not every feature is ready immediately in all browsers; some shims might take time to load before you can use them. You can use one of jQuery's <tt>ready</tt> methods to delay working with elements until the DOM and any necessary shims are
+                ready.</p>
+            <pre>
 $(function(){
-  //work with DOM + all implemented features
+  // work with DOM + all implemented features
 });
 
 $(document).ready(function(){
-  //work with DOM + all features
+  // work with DOM + all features
 });
-</pre>   
-  
-      
-          <p>If you want to use a feature as soon as possible or you have set the <code>waitReady</code> option to <code>false</code>, you can use <code>$.webshims.ready</code> and pass the feature name(s) and a callback function:</p>
-<pre>
+</pre> 
+
+
+            <p>If you want to use a feature as soon as possible or you have set the <tt>waitReady</tt> option to <tt>false</tt>, you can use <tt>$.webshims.ready</tt> and pass the feature name(s) and a callback function:</p>
+            <pre>
 $.webshims.ready('geolocation json-storage', function(){
-  //work with geolocation, JSON and localStorage
+  // work with geolocation, JSON and localStorage
 });
 </pre> 
-          <p>Note that this callback function may be called before the DOM is ready. If you want to use a feature after DOM-Ready, simply pass the string 'DOM':</p>
-<pre>
+            <p>Note that this callback function may be called before the DOM is ready. If you want to use a feature after DOM-Ready, simply pass the string 'DOM':</p>
+            <pre>
 $.webshims.ready('DOM canvas', function(){
-  //work with canvas in the document
+  // work with canvas in the document
 });
 </pre> 
 
-    </p>
+        </p>
 
-    <p id="Introduction-dom-abstractions">
-      <b class="header">DOM Abstractions</b> <br>
-      bleh
-    </p>
+        <p id="Guide-dom-abstractions">
+            <b class="header">DOM Abstractions</b> 
+            <br>
+            TODO
+        </p>
 
-    <p id="Introduction-extending">
-      <b class="header">Writing a New Polyfill</b> <br>
+        <p id="Customizing">
+            <b class="header">Customizing Webshim</b> 
+            <br>
 
-      <p>A Pollyfill is always split into at least two parts. First the test and loader definition, and then the implementation.</p>
-    
-    <p>Assume there is a new method <code>magicMethod</code> on the window object that we want to polyfill if the browser doesn't provide it. An implementation would look like this:</p>
-<pre>
+
+            <p>
+                <strong>Changing Shims Path</strong> <br>
+                The shims folder is computed automatically. If the name of polyfiller.js is changed <strong>and</strong> the polyfill-script is loaded async, this computation can be wrong and you have to set the folder manually. Here's an example of changing
+                the basePath:
+            </p>
+            <pre>
+$.webshims.setOptions("basePath", "/yourFolderTo/shims/");
+// or:
+$.webshims.setOptions({
+  basePath: "/yourFolderTo/shims/"
+});
+</pre>
+
+
+        </p>
+
+
+        <p id="Customizing-modernizr">
+            <b class="header">Modernizr</b> 
+            <br>
+            Webshims lib does not need every Modernizr test and supports creating a <a href="http://modernizr.com/download/#-canvas-audio-video-input-inputtypes-localstorage-sessionstorage-geolocation-shiv-cssclasses-addtest-prefixed-testprop-testallprops-prefixes-domprefixes-elem_track-load">custom Modernizr build</a>.
+            (Webshims lib uses <a href="http://requirejs.org/">requireJS</a> or <a href="https://gist.github.com/aFarkas/936413">sssl</a> as a script loader, if this is included, if not it uses Modernizr.load/yepnope.)
+        </p>
+
+        <p>
+            <small> <a href="http://modernizr.com/download/#-canvas-audio-video-input-inputtypes-localstorage-sessionstorage-geolocation-shiv-cssclasses-addtest-prefixed-testprop-testallprops-prefixes-domprefixes-elem_track-load"> Modernizr detections used by webshim</a> </small>
+        </p>
+
+
+        <p id="Customizing-extending">
+            <b class="header">Writing a New Polyfill</b> 
+            <br>
+
+            <p>A Pollyfill is always split into at least two parts. First the test and loader definition, and then the implementation.</p>
+
+            <p>Assume there is a new method <tt>magicMethod</tt> on the window object that we want to polyfill if the browser doesn't provide it. An implementation would look like this:</p>
+            <pre>
 $.webshims.addPolyfill('magicMethod', {
   test: function(){
     return ('magicMethod' in window); 
   }
 });
 // loads magicMethod.js from shim-folder if test returns false
-</pre>   
-    <p>Create a file called magicMethod with your polyfill code and place it in the shim folder:</p>  
-<pre>
+</pre> 
+            <p>Create a file called magicMethod with your polyfill code and place it in the shim folder:</p>
+            <pre>
 window.magicMethod = function(){
-  //your polyfill implementation
+  // your polyfill implementation
 };
-</pre>   
+</pre> 
 
-    <p>If your implementation has dependencies on other polyfills/modules, you can add a dependencies property to make sure they're loaded too:</p>
-    
-<pre>
+            <p>If your implementation has dependencies on other polyfills/modules, you can add a dependencies property to make sure they're loaded too:</p>
+
+            <pre>
 $.webshims.addPolyfill('magicMethod', {
   test: function(){
     return ('magicMethod' in window); 
@@ -375,25 +397,25 @@ $.webshims.addPolyfill('magicMethod', {
   d: ['es5', 'json-storage'] // d = dependencies
 });
 // load magicMethod.js and its dependencies if test returns false
-</pre>   
-    <p>If your shim has dependencies, you have to register your implementation code with <code>$.webshims.register</code>:</p>  
-<pre>
-jQuery.webshims.register('magicMethod', function($, webshims, window, document, undefined, options){
-  //now you can use es5-feature and json-storage feature  
+</pre> 
+            <p>If your shim has dependencies, you have to register your implementation code with <tt>$.webshims.register</tt>:</p>
+            <pre>
+$.webshims.register('magicMethod', function($, webshims, window, document, undefined, options){
+  // now you can use es5-feature and json-storage feature  
   window.magicMethod = function(){
-    //your polyfill implementation
+    // your polyfill implementation
   };
 });
 </pre> 
 
-    <p>In case of a DOM extension, webshims lib comes with some useful extension-methods.</p>
-<pre>
+            <p>In case of a DOM extension, webshims lib comes with some useful extension-methods.</p>
+            <pre>
 $.webshims.addPolyfill('mediaelement', {
   test: function(){
     return ('canPlayType' in document.createElement('video'));  
   },
   d: ['dom-support'],
-  methodNames: ['play'] //pause, load
+  methodNames: ['play'] // pause, load
 });
 // load mediaelement.js and DOM extension features from shim folder
 // if test returns false and always create a jQuery plugin called play,
@@ -404,57 +426,57 @@ $.webshims.addPolyfill('mediaelement', {
 $.webshims.capturingEvents(['play']);
 </pre>
 
-    <p>Now put a mediaelement.js inside of your shim folder and start implementing some features. The <code>dom-support</code> feature of Webshims lib comes with some very useful implementation helpers. Here are two of them:</p>
-    <ul>
-      <li><code>$.webshims.defineNodeNamesProperty</code> (nodeNames, property, descriptor)</li>
-      <li><code>$.webshims.defineNodeNamesBooleanProperty</code> (nodeNames, property, descriptor)</li>
-    </ul>
-<pre>
-//wait till the DOM-Extension feature is loaded
-jQuery.webshims.register('mediaelement', function($, webshims, window, document, undefined, options){
-  //note: webshims refers to jQuery.webshims in this function
+            <p>Now put a mediaelement.js inside of your shim folder and start implementing some features. The <tt>dom-support</tt> feature of Webshims lib comes with some very useful implementation helpers. Here are two of them:</p>
+            <ul>
+                <li><tt>$.webshims.defineNodeNamesProperty</tt> (nodeNames, property, descriptor)</li>
+                <li><tt>$.webshims.defineNodeNamesBooleanProperty</tt> (nodeNames, property, descriptor)</li>
+            </ul>
+            <pre>
+// wait till the DOM-Extension feature is loaded
+$.webshims.register('mediaelement', function($, webshims, window, document, undefined, options){
+  // webshims refers to jQuery.webshims in this function
   
   //Implements a new IDL property on audio, video called currentTime
   webshims.defineNodeNamesProperty('audio, video', 'currentTime', {
     prop: {
       get: function(){
-        //your getter implementation ("this" refers to the element)
+        // your getter implementation ("this" refers to the element)
       },
       set: function(value){
-        //your setter implementation ("this" refers to the element)
+        // your setter implementation ("this" refers to the element)
       }
     }
   });
   
-  //Implements a new constant property called HAVE_CURRENT_DATA on audio, video
+  // Implements a new constant property called HAVE_CURRENT_DATA on audio, video
   webshims.defineNodenamesProperty('audio, video', 'HAVE_CURRENT_DATA', {
     prop: {
       value: 2
     }
   });
   
-  //Implements a new method called play on audio, video
+  // Implements a new method called play on audio, video
   webshims.defineNodeNamesProperty('audio, video', 'play', {
     prop: {
       value: function(){
-        //your play method implementation
-        //this refers to the element
+        // your play method implementation
+        // this refers to the element
       }
     }
   });
   
   
   
-  //Implements a new boolean IDL property called controls on audio, video
-  //which is reflected by a content attribute
+  // Implements a new boolean IDL property called controls on audio, video
+  // which is reflected by a content attribute
   webshims.defineNodeNamesBooleanProperty('audio, video', 'controls', {
-    //set works more like an onSet:
-    //you don't have to set the value anymore on the DOM node, only handle true/false values
+    // set works more like an onSet:
+    // you don't have to set the value anymore on the DOM node, only handle true/false values
     set: function(value){
       if(value){
-        //show controls for elem
+        // show controls for elem
       } else {
-        //hide controls for elem
+        // hide controls for elem
       }
     },
     initAttr: true
@@ -462,29 +484,27 @@ jQuery.webshims.register('mediaelement', function($, webshims, window, document,
 }); 
 </pre>
 
-    </p>
+        </p>
 
+    </div>
 
+    <!--  <script src="docs/js/jquery.lazyload.js"></script>  -->
 
+    <script>
+        // Set up the 'play' buttons for each runnable code example.
+        $(function () {
+            $('.runnable').each(function () {
+                var code = this;
+                var button = '<div class="run" title="Run"></div>';
+                $(button).insertBefore(code).bind('click', function () {
+                    eval($(code).text());
+                });
+            });
 
-  </div>
-
-  <!--  <script src="docs/js/jquery.lazyload.js"></script>  --> 
-
-  <script>
-    // Set up the 'play' buttons for each runnable code example.
-    $(function() {
-      $('.runnable').each(function() {
-        var code = this;
-        var button = '<div class="run" title="Run"></div>';
-        $(button).insertBefore(code).bind('click', function(){
-          eval($(code).text());
+            //$('[data-original]').lazyload();
         });
-      });
-
-      //$('[data-original]').lazyload();
-    });
-  </script>
+    </script>
 
 </body>
+
 </html>

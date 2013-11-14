@@ -2,7 +2,7 @@ body {
   font-size: 14px;
   line-height: 22px;
   font-family: Helvetica Neue, Helvetica, Arial;
-  background: #f4f4f4 url(../images/background2.png);
+  background: #f4f4f4 url(../images/background.png);
 }
 .interface {
   font-family: "Lucida Grande", "Lucida Sans Unicode", Helvetica, Arial, sans-serif !important;
@@ -56,7 +56,6 @@ div.container {
   position: relative;
   width: 550px;
   margin: 40px 0 50px 260px;
-  color: #ddd;
 }
 img#logo {
   width: 300px;
@@ -164,7 +163,6 @@ code, pre, tt {
   font-size: 12px;
   line-height: 18px;
   font-style: normal;
-  background-color: #111;
 }
   tt {
     padding: 0px 3px;
