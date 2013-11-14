@@ -235,22 +235,27 @@
             <p>The available options for <tt>$.webshims.setOptions</tt>:</p>
             <ul>
                 <li><strong>extendNative</strong>  Webshims lib will automatically extend DOM-Objects with polyfilled methods and will additionally generate a jQuery plugin with this method name. If extendNative is set to false, webshims lib
-                    won't touch any DOM-Objects and will only implement jQuery plugins. Setting this option to false might improve DOM performance. <em>default: false</em>
+                    won't touch any DOM-Objects and will only implement jQuery plugins. Setting this option to false might improve DOM performance. <br>
+                    <em>default: false</em>
                 </li>
-                <li><strong>basePath</strong> If polyfiller.js was renamed <strong>and</strong> is loaded dynamically, the basePath should be changed manually. <em>default: computed path to shims folder</em>
+                <li><strong>basePath</strong> The shims folder is computed automatically. If the name of polyfiller.js is changed <strong>and</strong> the polyfill-script is loaded async, this computation can be wrong and you have to set the folder manually. Example:<br>
+                    <tt> $.webshims.setOptions('basePath', '/yourFolderTo/shims/'); </tt> <br>
+                    <em>default: computed path to shims folder</em>
                 </li>
-                <li><strong>waitReady</strong> Setting this to true delays jQuery's ready-event until all polyfilled features are ready. This option should be set to false, if webshims lib polyfiller.js is loaded async (see
-                    also Loading webshims async in the <a href="#polyfill-foucs">loading documentation</a>) or from bottom of the body element. This option can also be set to false, if a website is using only HTML5 markup APIs (pure HTML or $.attr) and
-                    do not use any DOM-/JS-APIs on DOM-ready. If this feature is set to false, which might be good against FOUCs, scripted access to polyfilled APIs have to be added inside of a <a href="#polyfill-ready"><tt>$.webshims.ready</tt></a> callback. <em>default: true</em>
+                <li><strong>waitReady</strong> Setting this to true delays jQuery's ready-event until all polyfilled features are ready. This option should be set to false, if webshims lib polyfiller.js is loaded asynchronously. This option can also be set to false, if a website is using only HTML5 markup APIs (pure HTML or $.attr) and
+                    doesn't use any DOM-/JS-APIs on DOM-ready. If this feature is set to false, scripted access to polyfilled APIs have to be added inside of a <tt>$.webshims.ready</tt> callback. <br>
+                    <em>default: true</em>
                 </li>
-                <li><strong>disableShivMethods</strong> Automatically disables the <a href="https://github.com/aFarkas/html5shiv">shivMethods</a> option of html5shiv. <em> default: true</em>
+                <li><strong>disableShivMethods</strong> Automatically disables the <a href="https://github.com/aFarkas/html5shiv">shivMethods</a> option of html5shiv. <br>
+                <em> default: true</em>
                 </li>
                 <li>
-                    <strong>debug</strong> Setting to true enables debug info to be printed in the developer console. <em>default: false</em>
+                    <strong>debug</strong> Setting to true enables debug info to be printed in the developer console. <br>
+                    <em>default: false</em>
                 </li>
             </ul>
             <pre>
-$.webshims.setOptions("extendNative", false);
+$.webshims.setOptions('extendNative', false);
 </pre> 
             <p>
                 <tt>setOptions</tt> can also take a single options parameter:
@@ -261,7 +266,7 @@ $.webshims.setOptions({
 });
 </pre> 
             <p>
-                Feature specific options are nested options with the featurename as their key.
+                Feature specific options are nested options with the feature name as their key.
             </p>
             <pre>
 $.webshims.setOptions({
@@ -270,7 +275,7 @@ $.webshims.setOptions({
 
   // configure canvas-shim
   canvas: {
-    type: "flash" // use flashcanvas instead of excanvas as polyfill
+    type: 'flash' // use flashcanvas instead of excanvas as polyfill
   },
 
   // configure forms-shim
@@ -328,30 +333,110 @@ $.webshims.ready('DOM canvas', function(){
         <p id="Guide-dom-abstractions">
             <b class="header">DOM Abstractions</b> 
             <br>
-            TODO
+            
+            <p>Due to the fact that we cannot extend accessors of elements in all browsers, we always use jQuery as an extension-wrapper.</p>
+                    <ul>
+                        <li>
+                            <p><strong>Accessing DOM properties/attribute IDLs</strong>: if the feature allows accessing a specific attribute or property, always use jQuery's built-in <tt>$.prop</tt> (in case of IDL attributes/properties) or <tt>$.attr</tt>/<tt>$.removeAttr</tt> (in case of content attributes) method:</p>
+<pre>
+// instead of accessing a property directly (e.g. this.validity), use $.fn.prop 
+$(this).prop('validity');
+// or:
+//$.prop(this, 'validity');
+
+//setting a property
+$('video').prop('currentTime', 200);
+// or:
+//$.prop(videoElement, 'currentTime', 200);
+</pre>
+                        </li>
+                        <li>
+                            <p><strong>calling a DOM method</strong>: While DOM properties have to be accessed through jQuery's <tt>$.prop/$.attr</tt> methods, DOM methods can be accesed using $.prop and executed in the context of the DOM element.</p>
+<pre>
+// "this" refers to a DOM element, not a jQuery object
+var fn = $.prop(this, 'checkValidity');
+fn.apply(this);
+</pre>
+                            <p>To make this more easier Webshims lib also generates a jQuery plugin which wraps the featured method, so you can use jQuery too:</p>
+<pre>
+$(this).checkValidity();
+
+$(this).callProp('checkValidity'); // $(this).callProp('play');
+</pre>
+                            <p>The jQuerified method can also take some arguments, if specified by the spec.</p>
+                            
+<pre>
+$('video').addTextTrack('subtitles', 'just a test', 'en');
+
+$('video').callProp('addTextTrack', ['subtitles', 'just a test', 'en']);    
+</pre>                         
+                            <p>If you pass a list of nodes and the method doesn't return anything, the method will be called on each element in this list, otherwise it will be called on the first element.</p>
+                            <p>In case a developer wants to make method calling "feel 100% native", the general option <tt>extendNative</tt> can be set to <tt>true</tt>.</p>
+<pre>
+$.webshims.setOptions('extendNative', true);
+$.webshims.polyfill('forms');
+// ...
+this.checkValidity()  // or use $(this).callProp('checkValidity')
+
+$('video').get(0).addTextTrack('subtitles', 'just a test', 'en');
+</pre> 
+
+                        </li>
+                        <li>
+                            <p><strong>binding to events</strong>: Always use jQuery's <tt>on</tt>, <tt>bind</tt> method to register your event handlers. <tt>addEventListener</tt> or inline event handler won't work in polyfilled browsers. Most events in the HTML5 specification are so-called simple events. Simple events do not bubble. Due to the fact that developers really like event delegation and jQuery cannot distinguish between the event phases (capturing/propagation), we use event capturing in the native implementation and <tt>$.fn.trigger</tt> in the shim.</p>
+                            <p>This means that some HTML5 events go down the DOM tree in capable browsers and go up the tree in polyfilled browsers. This can create differences if you are calling <tt>event.stopPropagation();</tt> or <tt>return false;</tt> in your event handler. If you only want to prevent the default, don't use <tt>return false;</tt>, use <tt>event.preventDefault();</tt> instead.</p>
+                        </li>
+                        <li>
+                            <p><strong>manipulation methods/dynamically adding HTML5 content</strong>: To insert new HTML5 content dynamically, use <tt>.htmlPolyfill()</tt>, <tt>.appendPolyfill()</tt>, <tt>.prependPolyfill()</tt>, <tt>.afterPolyfill()</tt>, <tt>.beforePolyfill()</tt> and <tt>.replaceWithPolyfill()</tt>:</p>
+<pre>
+// three different examples
+$('form').appendPolyfill('&lt;fieldset&gt;&lt;input type="date" /&gt;&lt;/fieldset&gt;');
+$('#canvas-box').htmlPolyfill('&lt;canvas&gt;&lt;/canvas&gt;');
+$('datalist#list select').prependPolyfill('&lt;option value="new suggestion item" /&gt;');
+</pre>
+                            <p><small>See also <a href="demos/shiv.html#dynamic">dynamic HTML5 description</a>.</small></p>
+                        </li>
+                        <li>
+                            <p><strong>no shadowdom</strong>: Webshims lib sometimes has to add additional DOM elements to mimic the UI of HTML5 elements. This can sometimes create differences, between polyfilled and non polyfilled browsers. Webshims lib gives you a method called 'getShadowElement' to access the shadowelement from the native element and a method called 'getNativeElement' to access the native element from the shadowelement. If the element has no shadowelement the element itself is returned.</p>
+                            
+<pre>
+// animate the width of all date - inputs to a width of 300
+$('input[type="date"]').getShadowElement().animate({width: 300});
+</pre>
+                            <p>Some styles like float or display: none/block are not initially reflected by the shadowdom, it is a good approach to do this on a wrapper element:</p>
+<pre>&lt;!-- instead of --&gt;
+&lt;div class="form-field"&gt;
+  &lt;label for="date" style="display: none;"&gt;Birthdate&lt;/label&gt;
+  &lt;input type="date" id="date" style="display: none;" /&gt;
+&lt;/div&gt;
+&lt;!-- do this: --&gt;
+&lt;div class="form-field" style="display: none;"&gt;
+  &lt;label for="date"&gt;Birthdate&lt;/label&gt;
+  &lt;input type="date" id="date" /&gt;
+&lt;/div&gt;
+
+&lt;!-- or instead of: --&gt;
+&lt;div class="mediaplayer"&gt;
+  &lt;video src="file.mp4" controls style="margin: 0 10px 5px 0; float: left;"&gt;&lt;/video&gt;
+&lt;/div&gt;
+&lt;!-- do this: --&gt;
+&lt;div class="mediaplayer" style="margin: 0 10px 5px 0; float: left;"&gt;
+  &lt;video src="file.mp4" controls&gt;&lt;/video&gt;
+&lt;/div&gt;
+</pre>
+                            <p><strong>re-rendering shadowelements</strong>: On dynamic websites shadowelements dimensions and/or positions sometimes need to be updated, this can be achieved by triggering the <tt>updateshadowdom</tt>.</p>
+<pre>
+$(document).trigger('updateshadowdom');
+</pre>
+                            <p><small>The <tt>updateshadowdom</tt> event is automatically and lazily triggered on window.resize/emchange events.</small></p>
+                        </li>
+                    </ul>
+            
         </p>
 
         <p id="Customizing">
             <b class="header">Customizing Webshim</b> 
-            <br>
-
-
-            <p>
-                <strong>Changing Shims Path</strong> <br>
-                The shims folder is computed automatically. If the name of polyfiller.js is changed <strong>and</strong> the polyfill-script is loaded async, this computation can be wrong and you have to set the folder manually. Here's an example of changing
-                the basePath:
-            </p>
-            <pre>
-$.webshims.setOptions("basePath", "/yourFolderTo/shims/");
-// or:
-$.webshims.setOptions({
-  basePath: "/yourFolderTo/shims/"
-});
-</pre>
-
-
         </p>
-
 
         <p id="Customizing-modernizr">
             <b class="header">Modernizr</b> 
@@ -436,7 +521,7 @@ $.webshims.capturingEvents(['play']);
 $.webshims.register('mediaelement', function($, webshims, window, document, undefined, options){
   // webshims refers to jQuery.webshims in this function
   
-  //Implements a new IDL property on audio, video called currentTime
+  // Implements a new IDL property on audio, video called currentTime
   webshims.defineNodeNamesProperty('audio, video', 'currentTime', {
     prop: {
       get: function(){
