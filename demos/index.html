@@ -51,6 +51,14 @@
             </li>
         </ul>
 
+        <a class="toc_title" href="#Shiv"> HTML5 shiv and innerShiv </a>
+        <ul class="toc_section">
+          <li>– <a href="#Shiv-dynamic-html5">Dynamically adding HTML5 Markup</a></li>
+          <li>– <a href="#Shiv-updatePolyfill">updatePolyfill</a></li>
+          <li>– <a href="#Shiv-shivMethods">shivMethods</a></li>
+          
+        </ul>
+
         <a class="toc_title" href="#Customizing"> Customizing </a>
         <ul class="toc_section">
             <li>- <a href="#Customizing-modernizr">Modernizr</a>
@@ -59,15 +67,7 @@
             </li>
         </ul>
 
-
         <!--
-    <a class="toc_title" href="#Events">
-      shiv and innerShiv
-    </a>
-    <ul class="toc_section">
-      <li>– <a href="#Events-on">on</a></li>
-    </ul>
-
     <a class="toc_title" href="#Events">
       ES5/JavaScript 1.8.5
     </a>
@@ -339,7 +339,8 @@ $.webshims.ready('DOM canvas', function(){
                         <li>
                             <p><strong>Accessing DOM properties/attribute IDLs</strong>: if the feature allows accessing a specific attribute or property, always use jQuery's built-in <tt>$.prop</tt> (in case of IDL attributes/properties) or <tt>$.attr</tt>/<tt>$.removeAttr</tt> (in case of content attributes) method:</p>
 <pre>
-// instead of accessing a property directly (e.g. this.validity), use $.fn.prop 
+// instead of accessing a property directly (e.g. this.validity), 
+// use $.fn.prop 
 $(this).prop('validity');
 // or:
 //$.prop(this, 'validity');
@@ -417,10 +418,11 @@ $('input[type="date"]').getShadowElement().animate({width: 300});
 
 &lt;!-- or instead of: --&gt;
 &lt;div class="mediaplayer"&gt;
-  &lt;video src="file.mp4" controls style="margin: 0 10px 5px 0; float: left;"&gt;&lt;/video&gt;
+  &lt;video src="file.mp4" controls style="margin: 0 10px 5px 0; float: left"&gt;
+  &lt;/video&gt;
 &lt;/div&gt;
 &lt;!-- do this: --&gt;
-&lt;div class="mediaplayer" style="margin: 0 10px 5px 0; float: left;"&gt;
+&lt;div class="mediaplayer" style="margin: 0 10px 5px 0; float: left"&gt;
   &lt;video src="file.mp4" controls&gt;&lt;/video&gt;
 &lt;/div&gt;
 </pre>
@@ -433,6 +435,85 @@ $(document).trigger('updateshadowdom');
                     </ul>
             
         </p>
+
+
+
+        <h2 id="Shiv">HTML5 shiv and innershiv</h2>
+        <p>
+            IE8- isn't capable of rendering HTML5 elements. Webshims lib in combination with Modernizr automatically fixes this issue and adds WAI-ARIA landmarks to enable accessibility of HTML5.
+        </p>
+
+        <p id="Shiv-dynamic-html5">
+            <b class="header">Dynamically adding HTML5 markup</b><br>
+            Additionally it implements the following manipulation methods to allow dynamic creation of HTML5 elements: <tt>.updatePolyfill()</tt>, <tt>.htmlPolyfill()</tt>, <tt>.appendPolyfill()</tt>, <tt>.prependPolyfill()</tt>, <tt>.afterPolyfill()</tt>, <tt>.beforePolyfill()</tt> <tt>.replaceWithPolyfill()</tt>, <tt>.appendPolyfillTo()</tt>, <tt>.prependPolyfillTo()</tt>, <tt>.insertPolyfillAfter()</tt>, <tt>.insertPolyfillBefore()</tt>, <tt>.replacePolyfillAll()</tt>
+<pre>
+var html = '&lt;section&gt;&lt;form action="#"&gt;' +
+           '&lt;input type="text" placeholder="yay" name="test" required/&gt;' +
+           '&lt;input type="date" required="required" name="test2" /&gt;' +
+           '&lt;input type="submit" /&gt;' +
+           '&lt;/form&gt;&lt;/section&gt;';
+$('#my-id').appendPolyfill(html);
+</pre>
+        </p>
+            
+        <p id="Shiv-updatePolyfill">
+            
+            <b class="header">Using webshims' <tt>updatePolyfill</tt> method with Backbone/jQMobile/Knockout</b> <br>
+            If a plugin, script or framework is used, which uses a "normal" JS/jQuery manipulation method instead of the corresponding webshims enhanced manipulation method to generate new HTML5 content  (i.e.: <tt>.html()</tt> instead of <tt>.htmlPolyfill()</tt>), the method <tt>.updatePolyfill()</tt> can be used to polyfill the dynamic content:
+<pre>
+$('#my-dynamic-container').load('ajax/test.html', function(){
+    $(this).updatePolyfill();
+});
+</pre>     
+            <h4>jQuery mobile example</h4>
+            
+<pre>
+// call webshims.polyfill() before domready
+$.webshims.polyfill();
+$(function(){
+    // bind to the pageinit event after domready...
+    $(document).on('pagebeforecreate', function(e){
+        // ...and call updatePolyfill on the changed element container
+        $(e.target).updatePolyfill();
+    });
+});
+</pre> 
+            <p>For jQuery Mobile see also <a href="webforms/jquery-mobile.html">webshims and jQ mobile</a></p>
+
+            <p id="Shiv-shivMethods">
+                <b class="header">html5.shivMethods config</b> <br>
+                The <a href="https://github.com/aFarkas/html5shiv">html5shiv</a> also fixes dynamically creating HTML5 elements in IE6/7/8. In case you do not create HTML5 elements dynamically using JavaScript or you are using jQuery 1.7+ manipulation methods for creating HTML5 elements, you should set html5.shivMethods to false:
+            </p>
+
+<pre>
+&lt;script&gt;
+    // set options for html5shiv *before* embeding html5shiv
+    window.html5 = {
+        shivMethods: false
+    };
+&lt;/script&gt;
+&lt;script src="modernizr-with-shiv.js"&gt;&lt;/script&gt;
+</pre> 
+
+<pre>
+&lt;script src="modernizr-with-shiv.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+    // set options for html5shiv *after* embeding html5shiv
+    window.html5.shivMethods = false;
+&lt;/script&gt;
+</pre> 
+
+<pre>
+&lt;script&gt;
+    // set options for html5shiv
+    if(!window.html5){
+        window.html5 = {}; 
+    }
+    window.html5.shivMethods = false;
+&lt;/script&gt;
+</pre> 
+        </p>
+
 
         <p id="Customizing">
             <b class="header">Customizing Webshim</b> 
