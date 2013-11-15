@@ -71,6 +71,14 @@
             <li>- <a href="#Media-track">Track Element</a></li>
         </ul>
 
+        <a class="toc_title" href="#StorageJSON"> Storage &amp; JSON </a>
+
+        <a class="toc_title" href="#Geolocation"> Geolocation </a>
+
+        <a class="toc_title" href="#DetailsSummary"> Details &amp; Summary </a>
+
+        <a class="toc_title" href="#FileReader"> FileReader </a>
+
         <a class="toc_title" href="#Customizing"> Customizing </a>
         <ul class="toc_section">
             <li>- <a href="#Customizing-modernizr">Modernizr</a> </li>
@@ -831,6 +839,170 @@ $("video.my-video").loadMediaSrc(
             <li><strong>override</strong> (false): Overrides native track implementation. In case you have to deal with some cross-browser issues with native implementation.</li>
             <li><strong>positionDisplay</strong> (true): Positions the cue display via JavaScript.</li>
         </ul>
+
+
+        <h2 id="StorageJSON">Storage &amp; JSON</h2>
+        <p>The <tt>json-storage</tt> feature implements JSON.<a href="https://developer.mozilla.org/En/Using_native_JSON">parse/stringify</a> via <a href="http://www.json.org/js.html">JSON2 script</a> and <a href="https://developer.mozilla.org/en/DOM/Storage">localStorage/sessionStorage</a>.</p>
+            <p>The Storage support is based on the <a href="http://gist.github.com/350433">storage polyfill</a> by Remy Sharp. It uses the window.name-trick to store data for the session and shared object (flash) or a cookie (only, if flash isn't available) for localStorage.</p>
+            <p>The following Storage-interface is implemented:</p>
+            <ul>
+                <li>setItem</li>
+                <li>getItem</li>
+                <li>removeItem</li>
+                <li>clear</li>
+                <li>key</li>
+            </ul>
+            <p>If the flash localStorage shim is used and the the storage limit is hit, the flash settings dialog will be placed in to view to request more space for the storage. If the user denies this a DOMexception will be raised (<tt>QUOTA_EXCEEDED_ERR: 22</tt>).</p>
+            <p>Note: That IDL-attributes and the length property aren't implemented. You shouldn't rely on them, anyway.</p>
+            <p>Note: To use localStorage/sessionStorage you should test your webapp/website in an http-enivroment.</p>
+            <p>Note: For flash localStorage-polyfill: <a href="http://www.macromedia.com/support/documentation/en/flashplayer/help/settings_manager04.html">Add your development-directory to the local-trusted security sandbox.</a></p>
+<pre>
+$(function(){
+    if(localStorage.getItem('do-i-know-you') !== null) {
+        // yes
+    } else {
+        // but now
+        try {
+            localStorage.setItem('do-i-know-you', 'yes');
+        } catch(e){}
+    }
+});
+</pre>     
+            <h3>Options for the swf localStorage (<tt>json-storage</tt> feature)</h3>
+            <ul>
+                <li><strong>exceededMessage</strong> (string): A message, that will be placed above the flash settings dialog, which informs the user to allow more storage space for your domain.</li>
+            </ul>
+<pre>
+$.webshims.setOptions('json-storage', {
+    exceededMessage: "This application needs more space. Please move the slider to 5MB."
+});
+
+//$.webshims.polyfill();
+</pre> 
+            <h3>Changing path to swfobject</h3>
+<pre>
+$.webshims.modules.swfobject.src = '/path/to/swfobject.js';
+</pre>
+
+        <h2 id="Geolocation">Geolocation</h2>
+        <p>
+            The <tt>geolocation</tt>-feature implements the navigator.geolocation API. The following methods are available:
+        </p>
+            
+        <ul>
+            <li>navigator.getCurrentPosition: successCallback, errorCallback and options ({timeout: number}) are supported</li>
+            <li>navigator.watchPosition: in shim identical to getCurrentPosition, except it returns an useless ID</li>
+            <li>navigator.clearWatch: is noop in shim</li>
+        </ul>
+        
+        <p>The shim uses the geolocation information provided by <a href="http://freegeoip.net">http://freegeoip.net</a> and/or <a href="http://code.google.com/intl/de-DE/apis/ajax/documentation/#ClientLocation">googles API-Loader</a></p>
+        
+        <h3>Options for geolocation</h3>
+        <ul>
+            <li><strong>confirmText</strong> <em>string</em> confirm text for requesting access to geo data.</li>
+        </ul>
+<pre>
+$.webshims.setOptions('geolocation', {
+    confirmText: '{location} wants to know your position. It is Ok to press Ok.'
+});
+</pre>         
+<pre class="runnable">
+navigator.geolocation.getCurrentPosition(function(pos){
+    alert("Thx, you are @ latitude: "+ pos.coords.latitude +"/longitude: " + pos.coords.longitude);
+});
+</pre>
+
+
+        <h2 id="DetailsSummary">Details &amp; Summary</h2>
+
+        <p>The HTML5 details element is an interactive element. If the open attribute is set the details are shown, if not the details are hidden.</p>
+        <details>
+            <summary>click to toggle visibility</summary>
+            <p>Here are the <strong>details</strong> of this element:</p>
+            <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr,  sed diam nonumy eirmod tempor invidunt ut labore et dolore mag</p>
+        </details>
+        
+        <p>Dynamically creating a details element (always use htmlPolyfill, afterPolyfill, beforePolyfill etc.):</p>
+<pre class="runnable">
+$('details:first').afterPolyfill('&lt;details open="open"&gt;&lt;p&gt;Here is some text&lt;/p&gt;&lt;/details&gt;');
+</pre>
+        <p>The openness of a details element can be also scripted. Simply change the open IDL-attribute:</p>
+<pre class="runnable">
+// set the open attribute of the first details element ...
+// ... to its opposite value
+$('details:first').prop('open', !$('details').prop('open') );
+</pre>
+        
+
+        <h3>Options for the <tt>details</tt> feature</h3>
+        <ul>
+            <li>
+                <strong>text</strong> <em>string</em> The summary text which is generated if no summary element is found as first child of the details element. <br>
+                <em>default: Details</em>
+            </li>
+            <li>
+                <strong>animate</strong> <em>boolean</em> If set to true, the visibility toggle of details will be animated. <br>
+                <em>default: false</em>
+            </li>
+        </ul>
+        
+<pre class="runnable">
+$.webshims.setOptions('details', {animate: true});
+</pre>
+
+        <b class="header">Constraints of the details polyfill</b><br>
+        <ul>
+            <li>The polyfill currently only allows other elements as direct children of the details. Simple text is not allowed as direct child of details.</li>
+            <li>The details and summary element can be <strong>considered as experimental</strong>. It is not clear wether and if yes, how a developer can style the summary element. Safari nightly (6) and Chrome 12 are currently the only browsers supporting this element. Note: Please read <a href="http://my.opera.com/ODIN/blog/implementing-html5-details">Bruce Lawson's blog post</a>.</a></li>
+            <li>We currently haven't coded unit tests for this feature</li>
+        </ul>
+
+
+        <h2 id="FileReader"> FileReader</h2>
+        <p>An example of how to read a file as a base64 string from a form control:</p>
+<pre>
+&lt;!-- add ws-filereader class to all shimable type="file" inputs --&gt;
+&lt;input type="file" class="ws-filereader" id="user-photo" /&gt;
+</pre>
+<pre>
+$.webshims.polyfill('filereader');
+
+//on DOM ready filereader is shimmed
+$(function(){
+
+  $('#user-photo').on('change', function (evt) {
+    var reader, file;
+    reader = new FileReader();
+    reader.onload = function (evt) {
+      var fileData = evt.target.result;
+      // fileData is the base64 encoded image
+    };
+
+    //use $.prop to access files property
+    file = $(this).prop('files')[0];
+    reader.readAsDataURL(file);
+  });
+
+});
+</pre>
+        <h3>Options for the <code>FileReader</code> feature</h3>
+        <ul>
+            <li><strong>debugMode</strong> <em>boolean</em> Turn on/off console logging</li>
+            <li><strong>callback</strong> <em>function</em> Callback function triggered when Filereader is ready</li>
+        </ul>
+
+        <h3>Element specific options</h3>
+        <ul>
+            <li><strong>multiple</strong> <em>boolean</em> Mutliple file select. Default: input file multiple property or false</li>
+<li><strong>accept</strong> <em>string</em> Mime type file restriction. Default: input file accept attribute or false</li>
+<li><strong>label</strong> <em>string</em> Label for the file type in file dialog if using extensions: example “Images (.jpg)”</li>
+<li><strong>extensions</strong> <em>string</em> File extensions in Flash format: "*.jpg;*.png;*.pdf", requires label option</li>
+        </ul>
+
+        <p>
+            <em>This feature is based on code from <a href="https://github.com/Jahdrien/FileReader" target="_external">https://github.com/Jahdrien/FileReader</a>.
+            </em>
+        </p>
 
 
 
