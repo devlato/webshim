@@ -51,7 +51,7 @@
         <ul class="toc_section">
           <li>– <a href="#Shiv-dynamic-html5">Dynamically adding HTML5 Markup</a></li>
           <li>– <a href="#Shiv-updatePolyfill">updatePolyfill</a></li>
-          <li>– <a href="#Shiv-shivMethods">shivMethods</a></li>
+          <li>– <a href="#Shiv-shivMethods">shivMethods Configuration</a></li>
         </ul>
 
         <a class="toc_title" href="#ES5"> ES5 </a>
@@ -123,15 +123,12 @@
         </p>
 
         <p>
-            You can report bugs and discuss features on the
-            <a href="https://github.com/aFarkas/webshim/issues">GitHub issues page</a>, or send tweets to <a href="http://twitter.com/aFarkas">@aFarkas</a>.
+            You can report bugs and discuss features on the <a href="https://github.com/aFarkas/webshim/issues">GitHub issues page</a>.
         </p>
 
-        <h2 id="downloads">
-      Downloads &amp; Dependencies
+        <b class="header" id="downloads">Downloads &amp; Dependencies</b>
       <span style="padding-left: 7px; font-size:11px; font-weight: normal;" class="interface">(Right-click, and use "Save As")</span>
-    </h2>
-
+    
         <table>
             <tr>
                 <td>
@@ -147,7 +144,7 @@
             Webshim depends on <a href="http://jquery.com/">jQuery</a> and <a href="http://www.modernizr.com/">Modernizr</a>.
         </p>
 
-        <h2 id="introduction">Introduction</h2>
+        <h2 id="introduction" class="header">Introduction</h2>
 
         <p>
             There are many appealing HTML5 features such as form validation, geolocation, and FileReader which ease the burden of writing rich web applications.
@@ -169,7 +166,7 @@
         </p>
 
 
-        <p id="Guide-installation">
+        <p id="Guide-installation" class="header">
             <b class="header">Installation</b>
             <br>Take the 'js-webshim' folder and add it to your project. (You will find a minified and a dev folder there.) Here is an example showing how to include dependencies and load webshims:
             <pre>
@@ -188,7 +185,7 @@
         </p>
 
 
-        <p id="Guide-configuration">
+        <p id="Guide-configuration" class="header">
             <b class="header">Configuration</b> 
             <br>The polyfill method accepts an optional whitespace-separated feature list. Call it as soon as possible (before DOM ready.)
             <pre> $.webshims.polyfill('json-storage geolocation'); </pre> 
@@ -277,7 +274,7 @@ $.webshims.setOptions({
         </p>
 
 
-        <p id="Guide-fire-when-ready">
+        <p id="Guide-fire-when-ready" class="header">
             <b class="header">Fire When Ready</b> 
             <br>
 
@@ -309,7 +306,7 @@ $.webshims.ready('DOM canvas', function(){
 
         </p>
 
-        <p id="Guide-dom-abstractions">
+        <p id="Guide-dom-abstractions" class="header">
             <b class="header">DOM Abstractions</b> 
             <br>
             
@@ -422,7 +419,7 @@ $(document).trigger('updateshadowdom');
             IE8- isn't capable of rendering HTML5 elements. Webshims lib in combination with Modernizr automatically fixes this issue and adds WAI-ARIA landmarks to enable accessibility of HTML5.
         </p>
 
-        <p id="Shiv-dynamic-html5">
+        <p id="Shiv-dynamic-html5" class="header">
             <b class="header">Dynamically adding HTML5 markup</b><br>
             Additionally it implements the following manipulation methods to allow dynamic creation of HTML5 elements: <tt>.updatePolyfill()</tt>, <tt>.htmlPolyfill()</tt>, <tt>.appendPolyfill()</tt>, <tt>.prependPolyfill()</tt>, <tt>.afterPolyfill()</tt>, <tt>.beforePolyfill()</tt> <tt>.replaceWithPolyfill()</tt>, <tt>.appendPolyfillTo()</tt>, <tt>.prependPolyfillTo()</tt>, <tt>.insertPolyfillAfter()</tt>, <tt>.insertPolyfillBefore()</tt>, <tt>.replacePolyfillAll()</tt>
 <pre class="runnable">
@@ -436,7 +433,7 @@ $('#Shiv-dynamic-html5-test').htmlPolyfill(html);
 <div id="Shiv-dynamic-html5-test"> &nbsp; </div>
         </p>
             
-        <p id="Shiv-updatePolyfill">
+        <p id="Shiv-updatePolyfill" class="header">
             
             <b class="header">Using webshims' <tt>updatePolyfill</tt> method with Backbone/jQMobile/Knockout</b> <br>
             If a plugin, script or framework is used, which uses a "normal" JS/jQuery manipulation method instead of the corresponding webshims enhanced manipulation method to generate new HTML5 content  (i.e.: <tt>.html()</tt> instead of <tt>.htmlPolyfill()</tt>), the method <tt>.updatePolyfill()</tt> can be used to polyfill the dynamic content:
@@ -460,8 +457,8 @@ $(function(){
 </pre> 
             <p>For jQuery Mobile see also <a href="webforms/jquery-mobile.html">webshims and jQ mobile</a></p>
 
-            <p id="Shiv-shivMethods">
-                <b class="header">html5.shivMethods config</b> <br>
+            <p id="Shiv-shivMethods" class="header">
+                <b class="header">shivMethods Configuration</b> <br>
                 The <a href="https://github.com/aFarkas/html5shiv">html5shiv</a> also fixes dynamically creating HTML5 elements in IE6/7/8. In case you do not create HTML5 elements dynamically using JavaScript or you are using jQuery 1.7+ manipulation methods for creating HTML5 elements, you should set html5.shivMethods to false:
             </p>
 
@@ -634,7 +631,7 @@ var myCar = Object.create(carProto, {
 
 
         
-        <p id="Forms-forms">
+        <p id="Forms-forms" class="header">
             <b class="header"><tt>forms</tt> Options</b>
         </p>
         <ul>
@@ -674,7 +671,7 @@ var myCar = Object.create(carProto, {
             </li>
         </ul>
         
-        <p id="Forms-forms-ext">
+        <p id="Forms-forms-ext" class="header">
             <b class="header"><tt>forms-ext</tt> Options</b>
         </p>
         <ul>
@@ -710,7 +707,7 @@ var myCar = Object.create(carProto, {
             </li>
         </ul>
         
-        <p id="Forms-extensions">
+        <p id="Forms-extensions" class="header">
             <b class="header">Extensions</b>
         </p>
         <ul>
@@ -792,7 +789,7 @@ $.webshims.setOptions('canvas', {
             <li><strong>changeSWF</strong> <em>function</em> Callback function to modify the flashvars object for Jarisplayer.</li>
         </ul>
         
-        <p id="Media-extensions">     
+        <p id="Media-extensions" class="header">     
             <b class="header">Extensions/Abstractions to the standard</b>
            <ul>
                 <li>
@@ -815,7 +812,7 @@ $("video.my-video").loadMediaSrc(
     "my-poster.jpg"
 );
 </pre>    
-        <p id="Media-track">     
+        <p id="Media-track" class="header">     
             <b class="header">Track Element Support</b> <br>
             The <tt>track</tt> feature implements the track element width a WebVTT parser and the corresponding DOM- and JS-APIs.
         </p>
@@ -1008,7 +1005,7 @@ $(function(){
 
         <h2 id="Customizing"> Customizing Webshim</h2> 
 
-        <p id="Customizing-modernizr">
+        <p id="Customizing-modernizr" class="header">
             <b class="header">Modernizr</b> 
             <br>
             Webshims lib does not need every Modernizr test and supports creating a <a href="http://modernizr.com/download/#-canvas-audio-video-input-inputtypes-localstorage-sessionstorage-geolocation-shiv-cssclasses-addtest-prefixed-testprop-testallprops-prefixes-domprefixes-elem_track-load">custom Modernizr build</a>.
@@ -1021,7 +1018,7 @@ $(function(){
 
 
 
-        <p id="Customizing-extending">
+        <p id="Customizing-extending" class="header">
             <b class="header">Writing a New Polyfill</b> 
             <br>
 
@@ -1146,7 +1143,6 @@ $.webshims.register('mediaelement', function($, webshims, window, document, unde
             $('.runnable').each(function () {
                 var code = this;
                 var button = '<div class="run" title="Run"></div>';
-                console.log ('da code', code);
                 $(button).insertBefore(code).bind('click', function () {
                     eval($(code).text());
                 });
@@ -1154,6 +1150,50 @@ $.webshims.register('mediaelement', function($, webshims, window, document, unde
 
             //$('[data-original]').lazyload();
         });
+
+
+        // highlight the active menu. Modified from http://expressjs.com/app.js
+        $(function(){
+          var prev;
+          var n = 0;
+
+          var headings = $('h2,p.header').map(function(i, el){
+            return {
+              top: $(el).offset().top,
+              id: el.id
+            }
+          });
+
+          function closest() {
+            var h;
+            var top = $(window).scrollTop();
+            var i = headings.length;
+            while (i--) {
+              h = headings[i];
+              if (top >= h.top) return h;
+            }
+          }
+
+          $(document).scroll(function(){
+            var h = closest();
+            console.log ('closest', h);
+            if (!h) return;
+
+            if (prev) {
+              prev.css('color', '#000');
+              //prev.removeClass('active');
+              //prev.parent().parent().removeClass('active');
+            }
+
+            var a = $('a[href="#' + h.id + '"]');
+            a.css('color', '#18b6e5');
+            //a.addClass('active');
+            //a.parent().parent().addClass('active');
+
+            prev = a;
+          })
+        })
+
     </script>
 </body>
 </html>

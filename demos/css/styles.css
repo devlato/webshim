@@ -29,6 +29,7 @@ div#sidebar {
     a.toc_title:hover {
       text-decoration: underline;
     }
+
     #sidebar .version {
       font-size: 10px;
       font-weight: normal;
@@ -54,7 +55,7 @@ div#sidebar {
         }
 div.container {
   position: relative;
-  width: 550px;
+  width: 600px;
   margin: 40px 0 50px 260px;
 }
 img#logo {
