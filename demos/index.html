@@ -604,44 +604,55 @@ var myCar = Object.create(carProto, {
         <p>After this either Object.defineProperties will be invoked or legacy code is used.</p>
         
 
-        <p id="Customizing">
-            <b class="header">Customizing Webshim</b> 
-        </p>
-
-        <p id="Customizing-modernizr">
-            <b class="header">Modernizr</b> 
-            <br>
-            Webshims lib does not need every Modernizr test and supports creating a <a href="http://modernizr.com/download/#-canvas-audio-video-input-inputtypes-localstorage-sessionstorage-geolocation-shiv-cssclasses-addtest-prefixed-testprop-testallprops-prefixes-domprefixes-elem_track-load">custom Modernizr build</a>.
-            (Webshims lib uses <a href="http://requirejs.org/">requireJS</a> or <a href="https://gist.github.com/aFarkas/936413">sssl</a> as a script loader, if this is included, if not it uses Modernizr.load/yepnope.)
-        </p>
-
-        <p>
-            <small> <a href="http://modernizr.com/download/#-canvas-audio-video-input-inputtypes-localstorage-sessionstorage-geolocation-shiv-cssclasses-addtest-prefixed-testprop-testallprops-prefixes-domprefixes-elem_track-load"> Modernizr detections used by webshim</a> </small>
-        </p>
-
-
         <h2 id="Forms">Forms</h2>
         <p>
             The <tt>forms</tt> (constraint validation without number, date etc.) and <tt>forms-ext</tt> (number, date, range etc.) features of the webshim lib are implementing support for the <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/association-of-controls-and-forms.html#the-constraint-validation-api">constraint validation API</a>, some input widgets and the placeholder-attribute.</p>
             <p>The <tt>forms</tt> feature also implements an easy and cross browser way to control the validation UI (error message and styling the validation bubble).
         </p>
 
-        <h3>Implemented/fixed elements, attributes, properties, methods, events</h3>
+        <h3>Implemented/fixed in <tt>form</tt>:</h3>
         <ul>
-            <li><strong>elements:</strong> <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/the-button-element.html#the-output-element">output</a>, <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/the-button-element.html#the-datalist-element">datalist<sup>1</sup></a>, <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/the-button-element.html#the-progress-element">progress</a></li>
-            <li><strong>types</strong>: <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/states-of-the-type-attribute.html#e-mail-state-(type=email)">email</a>, <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/states-of-the-type-attribute.html#url-state-(type=url)">url</a><span class="forms-ext-feature">, <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/states-of-the-type-attribute.html#local-date-and-time-state">datetime-local</a>, <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/states-of-the-type-attribute.html#time-state-(type=time)">time</a>, <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/states-of-the-type-attribute.html#date-state-(type=date)">date</a>, <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/number-state.html#number-state-(type=number)">number</a>, <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/states-of-the-type-attribute.html#month-state-%28type=month%29">month</a>, <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/number-state.html#range-state-(type=range)">range</a></span></li>
-            <li><strong>content attributes and properties (IDL attributes)</strong>: <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/common-input-element-attributes.html#attr-input-placeholder">placeholder</a>, <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/common-input-element-attributes.html#attr-input-list">list</a>, <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/association-of-controls-and-forms.html#attr-fe-autofocus">autofocus</a>, <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/association-of-controls-and-forms.html#attr-fs-novalidate">novalidate (noValidate)</a>, <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/common-input-element-attributes.html#attr-input-required">required</a>, <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/common-input-element-attributes.html#attr-input-pattern">pattern</a>, <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/the-button-element.html#attr-textarea-maxlength">maxlength</a>, <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/association-of-controls-and-forms.html#attr-fs-formnovalidate">formnovalidate (formNoValidate)</a>, <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/association-of-controls-and-forms.html#attr-fs-formaction">formaction (formAction)</a>, <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/association-of-controls-and-forms.html#attr-fs-formenctype">formenctype (formEnctype)</a>, <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/association-of-controls-and-forms.html#attr-fs-formmethod">formmethod (formMethod)</a>, <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/association-of-controls-and-forms.html#attr-fs-formtarget">formtarget (formTarget)</a>, <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/association-of-controls-and-forms.html#association-of-controls-and-forms">form attribute</a><span class="forms-ext-feature">, <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/common-input-element-attributes.html#attr-input-step">step</a>, <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/common-input-element-attributes.html#attr-input-max">max</a>, <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/common-input-element-attributes.html#attr-input-min">min</a></span></li>
-            <li><strong>properties/IDLs</strong>: <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/the-button-element.html#dom-datalist-options">options<sup>2</sup></a>, <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/the-button-element.html#dom-progress-position">position</a>,
-                <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/association-of-controls-and-forms.html#dom-cva-willvalidate">willValidate</a>, <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/association-of-controls-and-forms.html#dom-cva-validity">validity</a>, <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/association-of-controls-and-forms.html#dom-cva-validationmessage">validationMessage</a>, <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/the-button-element.html#dom-progress-position">position</a><span class="forms-ext-feature">, <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/common-input-element-attributes.html#dom-input-valueasnumber">valueAsNumber</a>, <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/common-input-element-attributes.html#dom-input-valueasdate">valueAsDate</a>, <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/forms.html#dom-lfe-labels">labels</a></span></li>
-            <li><strong>methods</strong>: <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/association-of-controls-and-forms.html#dom-cva-setcustomvalidity">setCustomValidity</a>, <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/forms.html#dom-form-checkvalidity">checkValidity</a>, <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/common-input-element-attributes.html#dom-input-stepdown">stepUp/stepDown</a></li>
-            <li><strong>events</strong>: <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/association-of-controls-and-forms.html#constraint-validation">invalid</a>, <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/common-input-element-attributes.html#event-input-input">input</a></li>
-            <li><strong>Selectors</strong>: <a href="http://www.w3.org/TR/css3-ui/#pseudo-invalid">:invalid</a>, <a href="http://www.w3.org/TR/css3-ui/#pseudo-valid">:valid</a>, <a href="http://www.w3.org/TR/css3-ui/#pseudo-required">:required</a>, <a href="http://www.w3.org/TR/selectors4/#user-pseudos">:user-error</a> <!--, <a href="http://www.w3.org/TR/css3-ui/#pseudo-optional">:optional</a><span class="forms-ext-feature"><a href="http://www.w3.org/TR/css3-ui/#pseudo-in-range">, :in-range</a>, <a href="http://www.w3.org/TR/css3-ui/#pseudo-out-of-range">:out-of-range</a></span> -->(Not for CSS, only for JS, for CSS use selectors .user-sccuess, .user-error or [required] please look into the abstractions section)</li>
+            <li>
+                <strong>elements:</strong> <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/the-button-element.html#the-output-element">output</a>, <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/the-button-element.html#the-datalist-element">datalist<sup>1</sup></a>, <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/the-button-element.html#the-progress-element">progress</a></li>
+            <li>
+                <strong>types</strong>: <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/states-of-the-type-attribute.html#e-mail-state-(type=email)">email</a>, <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/states-of-the-type-attribute.html#url-state-(type=url)">url</a>
+            </li>
+            <li>
+                <strong>content attributes and properties (IDL attributes)</strong>: <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/common-input-element-attributes.html#attr-input-placeholder">placeholder</a>, <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/common-input-element-attributes.html#attr-input-list">list</a>, <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/association-of-controls-and-forms.html#attr-fe-autofocus">autofocus</a>, <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/association-of-controls-and-forms.html#attr-fs-novalidate">novalidate (noValidate)</a>, <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/common-input-element-attributes.html#attr-input-required">required</a>, <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/common-input-element-attributes.html#attr-input-pattern">pattern</a>, <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/the-button-element.html#attr-textarea-maxlength">maxlength</a>, <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/association-of-controls-and-forms.html#attr-fs-formnovalidate">formnovalidate (formNoValidate)</a>, <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/association-of-controls-and-forms.html#attr-fs-formaction">formaction (formAction)</a>, <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/association-of-controls-and-forms.html#attr-fs-formenctype">formenctype (formEnctype)</a>, <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/association-of-controls-and-forms.html#attr-fs-formmethod">formmethod (formMethod)</a>, <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/association-of-controls-and-forms.html#attr-fs-formtarget">formtarget (formTarget)</a>, <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/association-of-controls-and-forms.html#association-of-controls-and-forms">form attribute</a> </li>
+            <li>
+                <strong>properties/IDLs</strong>: <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/the-button-element.html#dom-datalist-options">options<sup>2</sup></a>, <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/the-button-element.html#dom-progress-position">position</a>,
+                <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/association-of-controls-and-forms.html#dom-cva-willvalidate">willValidate</a>, <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/association-of-controls-and-forms.html#dom-cva-validity">validity</a>, <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/association-of-controls-and-forms.html#dom-cva-validationmessage">validationMessage</a>, <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/the-button-element.html#dom-progress-position">position</a></li>
+            <li>
+                <strong>methods</strong>: <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/association-of-controls-and-forms.html#dom-cva-setcustomvalidity">setCustomValidity</a>, <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/forms.html#dom-form-checkvalidity">checkValidity</a>, <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/common-input-element-attributes.html#dom-input-stepdown">stepUp/stepDown</a></li>
+            <li>
+                <strong>events</strong>: <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/association-of-controls-and-forms.html#constraint-validation">invalid</a>, <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/common-input-element-attributes.html#event-input-input">input</a></li>
+            <li>
+                <strong>Selectors</strong>: <a href="http://www.w3.org/TR/css3-ui/#pseudo-invalid">:invalid</a>, <a href="http://www.w3.org/TR/css3-ui/#pseudo-valid">:valid</a>, <a href="http://www.w3.org/TR/css3-ui/#pseudo-required">:required</a>, <a href="http://www.w3.org/TR/selectors4/#user-pseudos">:user-error</a> <!--, <a href="http://www.w3.org/TR/css3-ui/#pseudo-optional">:optional</a><span class="forms-ext-feature"><a href="http://www.w3.org/TR/css3-ui/#pseudo-in-range">, :in-range</a>, <a href="http://www.w3.org/TR/css3-ui/#pseudo-out-of-range">:out-of-range</a></span> -->(Not for CSS, only for JS, for CSS use selectors .user-sccuess, .user-error or [required] please look into the abstractions section)</li>
         </ul>
         <ul>
             <li><small>1. You need to wrap the datalist options in a select element (datalist > select > option)! / datalist can be also switched to the <tt>forms-ext</tt> feature using the lightweightDatalist option.</small></li>
         </ul>
+
+
+        <h3>Implemented/fixed in <tt>form-ext</tt>:</h3>
+        <ul>
+            <li>
+                <strong>types</strong>: <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/states-of-the-type-attribute.html#local-date-and-time-state">datetime-local</a>, <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/states-of-the-type-attribute.html#time-state-(type=time)">time</a>, <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/states-of-the-type-attribute.html#date-state-(type=date)">date</a>, <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/number-state.html#number-state-(type=number)">number</a>, <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/states-of-the-type-attribute.html#month-state-%28type=month%29">month</a>, <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/number-state.html#range-state-(type=range)">range</a>
+            </li>
+            <li>
+                <strong>content attributes and properties (IDL attributes)</strong>: <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/common-input-element-attributes.html#attr-input-step">step</a>, <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/common-input-element-attributes.html#attr-input-max">max</a>, <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/common-input-element-attributes.html#attr-input-min">min</a>
+            </li>
+            <li>
+                <strong>properties/IDLs</strong>: <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/common-input-element-attributes.html#dom-input-valueasnumber">valueAsNumber</a>, <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/common-input-element-attributes.html#dom-input-valueasdate">valueAsDate</a>, <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/forms.html#dom-lfe-labels">labels</a>
+            </li>
+        </ul>
+
+
+
         
-        <h3><tt>forms</tt> Options</h3>
+        <p id="Forms-forms">
+            <b class="header"><tt>forms</tt> Options</b>
+        </p>
         <ul>
             <li><strong>customMessages</strong> (boolean): <tt>false</tt> (default) || <tt>true</tt>. If <tt>customMessages</tt> is set to true. Webshims Lib will implement a DOM-Property called customValidationMessage, which can be changed through the $.webshims.validityMessages-Array.</li>
             <li><strong>lazyCustomMessages</strong> (boolean): <tt>false</tt> (default) || <tt>true</tt>. Similiar to <tt>customMessages</tt>, but the data is loaded more lazily (good for performance). The customValidationMessage property is not always available on DOM-Ready.</li>
@@ -654,7 +665,9 @@ var myCar = Object.create(carProto, {
             <li><strong>listFilter</strong> (string): <tt>*</tt> (default) || <tt>^</tt> || <tt>!</tt>: How to search/filter insdie of a datalist. * (wildcard search), ^ (matches the beginning) or ! (no search at all). This option can be changed on the input[list] element itself, by using data-list-filter="^".</li>
         </ul>
         
-        <h3><tt>forms-ext</tt> Options</h3>
+        <p id="Forms-forms-ext">
+            <b class="header"><tt>forms-ext</tt> Options</b>
+        </p>
         <ul>
             <li><strong>replaceUI</strong> (boolean): <tt>false</tt> (default) || <tt>true</tt>. If replaceUI is set to true the number, time, month, date <!--, datetime --> and range Widgets are replaced in all browsers (also in browser, which have implemented these types). This is useful, if you want to style the UI in all browsers.</li>
             <li><strong>types</strong> (string): <tt>'datetime-local month date time range number'</tt>. A white space seperated string. Possible values are: datetime-local range date time number month color (Note: color is left out from the default string). If one of the listed input types is not supported. Webshims will load the forms-ext API and UI package and implement all types.</li>
@@ -668,7 +681,9 @@ var myCar = Object.create(carProto, {
             <li><strong>color</strong> (options): </li>
         </ul>
         
-        <b class="header">Extensions</b> <br>
+        <p id="Forms-extensions">
+            <b class="header">Extensions</b>
+        </p>
         <ul>
             <li><strong>event: firstinvalid</strong>: <tt>firstinvalid</tt> is a simple, bubbling event, which is triggered on the first invalid form element. Preventing the default of firstinvalid will automatically prevent the default behavior of all current invalid elements.</li>
             <li><strong>event: lastinvalid</strong>: <tt>lastinvalid</tt> is an extended, bubbling, (but) uncancelable event, which is triggered on the last invalid form element. The property <tt>invalidlist</tt> is a jQuery-collection of all current invalid elements.</li>
@@ -685,6 +700,22 @@ var myCar = Object.create(carProto, {
         </ul>
 
 
+        <p id="Customizing">
+            <b class="header">Customizing Webshim</b> 
+        </p>
+
+        <p id="Customizing-modernizr">
+            <b class="header">Modernizr</b> 
+            <br>
+            Webshims lib does not need every Modernizr test and supports creating a <a href="http://modernizr.com/download/#-canvas-audio-video-input-inputtypes-localstorage-sessionstorage-geolocation-shiv-cssclasses-addtest-prefixed-testprop-testallprops-prefixes-domprefixes-elem_track-load">custom Modernizr build</a>.
+            (Webshims lib uses <a href="http://requirejs.org/">requireJS</a> or <a href="https://gist.github.com/aFarkas/936413">sssl</a> as a script loader, if this is included, if not it uses Modernizr.load/yepnope.)
+        </p>
+
+        <p>
+            <small> <a href="http://modernizr.com/download/#-canvas-audio-video-input-inputtypes-localstorage-sessionstorage-geolocation-shiv-cssclasses-addtest-prefixed-testprop-testallprops-prefixes-domprefixes-elem_track-load"> Modernizr detections used by webshim</a> </small>
+        </p>
+
+        
 
         <p id="Customizing-extending">
             <b class="header">Writing a New Polyfill</b> 
@@ -786,8 +817,6 @@ $.webshims.register('mediaelement', function($, webshims, window, document, unde
     }
   });
   
-  
-  
   // Implements a new boolean IDL property called controls on audio, video
   // which is reflected by a content attribute
   webshims.defineNodeNamesBooleanProperty('audio, video', 'controls', {
@@ -804,12 +833,8 @@ $.webshims.register('mediaelement', function($, webshims, window, document, unde
   });
 }); 
 </pre>
-
         </p>
-
     </div>
-
-    <!--  <script src="docs/js/jquery.lazyload.js"></script>  -->
 
     <script>
         // Set up the 'play' buttons for each runnable code example.
@@ -826,7 +851,5 @@ $.webshims.register('mediaelement', function($, webshims, window, document, unde
             //$('[data-original]').lazyload();
         });
     </script>
-
 </body>
-
 </html>
