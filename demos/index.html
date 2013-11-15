@@ -67,6 +67,7 @@
             <li>– <a href="#Forms-extensions">Extensions</a> </li>
         </ul>
 
+        <a class="toc_title" href="#Canvas"> Canvas </a>
 
         <a class="toc_title" href="#Customizing"> Customizing </a>
         <ul class="toc_section">
@@ -694,16 +695,36 @@ var myCar = Object.create(carProto, {
             <b class="header"><tt>forms-ext</tt> Options</b>
         </p>
         <ul>
-            <li><strong>replaceUI</strong> <em>boolean</em> <tt>false</tt> (default) || <tt>true</tt>. If replaceUI is set to true the number, time, month, date <!--, datetime --> and range Widgets are replaced in all browsers (also in browser, which have implemented these types). This is useful, if you want to style the UI in all browsers.</li>
-            <li><strong>types</strong> <em>string</em> <tt>'datetime-local month date time range number'</tt>. A white space seperated string. Possible values are: datetime-local range date time number month color (Note: color is left out from the default string). If one of the listed input types is not supported. Webshims will load the forms-ext API and UI package and implement all types.</li>
-            <li><strong>widgets</strong> <em>object</em> widgets is a general options object for all input options. <a href="webforms/3-webforms-widgets.html#configure-ui">more information</a> </li>
-            <li><strong>date</strong> <em>object</em> <a href="webforms/3-webforms-widgets.html#date-cfg"> example </a></li>
+            <li>
+                <strong>replaceUI</strong> <em>boolean</em> If set to true the number, time, month, date <!--, datetime --> and range Widgets are replaced in all browsers (also in browser, which have implemented these types). This is useful, if you want to style the UI in all browsers. <br>
+                <em>default: false</em>
+            </li>
+            <li>
+                <strong>types</strong> <em>string</em> A white space seperated string. Possible values are <tt>'datetime-local range date time number month color'</tt>. If one of the listed input types is not supported, Webshim will load the forms-ext API and UI package and implement all types.<br>
+                <em>default: datetime-local month date time range number</em>
+            </li>
+            <li>
+                <strong>widgets</strong> <em>object</em> widgets is a general options object for all input options. <a href="webforms/3-webforms-widgets.html#configure-ui">more information</a>
+            </li>
+            <li>
+                <strong>date</strong> <em>object</em> <a href="webforms/3-webforms-widgets.html#date-cfg"> example </a>
+            </li>
             <!--<li><strong>datetime-local</strong> (options): for more information see <a href="webforms/3-webforms-widgets.html#datetime-local-cfg">here</a></li>-->
-            <li><strong>month</strong> <em>object</em> <a href="webforms/3-webforms-widgets.html#month-cfg">example</a></li>
-            <li><strong>number</strong> <em>object</em> <a href="webforms/3-webforms-widgets.html#number-cfg">example</a></li>
-            <li><strong>time</strong> <em>object</em> <a href="webforms/3-webforms-widgets.html#time-cfg">example</a></li>
-            <li><strong>range</strong> <em>object</em> <a href="webforms/3-webforms-widgets.html#range-cfg">example</a></li>
-            <li><strong>color</strong> <em>object</em> </li>
+            <li>
+                <strong>month</strong> <em>object</em> <a href="webforms/3-webforms-widgets.html#month-cfg">example</a>
+            </li>
+            <li>
+                <strong>number</strong> <em>object</em> <a href="webforms/3-webforms-widgets.html#number-cfg">example</a>
+            </li>
+            <li>
+                <strong>time</strong> <em>object</em> <a href="webforms/3-webforms-widgets.html#time-cfg">example</a>
+            </li>
+            <li>
+                <strong>range</strong> <em>object</em> <a href="webforms/3-webforms-widgets.html#range-cfg">example</a>
+            </li>
+            <li>
+                <strong>color</strong> <em>object</em>
+            </li>
         </ul>
         
         <p id="Forms-extensions">
@@ -725,9 +746,37 @@ var myCar = Object.create(carProto, {
         </ul>
 
 
-        <p id="Customizing">
-            <b class="header">Customizing Webshim</b> 
-        </p>
+        <h2 id="Canvas">Canvas</h2>
+        <p>the canvas feature implements one jQuery method <tt>.getContext()</tt>.</p>
+            
+            
+            <canvas id="my-canvas" width="80" height="80"></canvas>
+<pre class="runnable">
+var ctx = $('#my-canvas').getContext('2d');
+ctx.fillStyle = "rgb(200,0,0)";  
+ctx.fillRect (10, 10, 55, 50);  
+ 
+ctx.fillStyle = "rgba(0, 0, 200, 0.5)";  
+ctx.fillRect (30, 30, 55, 50);
+</pre>
+            <p>Webshim Lib can implement <a href="http://code.google.com/p/explorercanvas/">excanvas</a> or <a href="http://flashcanvas.net/">FlashCanvas (default)/FlashCanvas Pro</a>:</p>
+<pre>
+// always run configuration before calling $.webshims.polyfill();
+window.FlashCanvasOptions = {
+    disableContextMenu: true
+};
+$.webshims.setOptions('canvas', {
+    type: 'flashpro' // excanvas | flash | flashpro
+});
+</pre>
+            <h3>Options for the <tt>canvas</tt> feature</h3>
+            <ul>
+                <li>
+                    <strong>type</strong> <em>string</em> Enumeration with value <tt>flash</tt> or <tt>flashpro</tt> or <tt>excanvas</tt>
+                </li>
+            </ul>
+
+        <h2 id="Customizing"> Customizing Webshim</h2> 
 
         <p id="Customizing-modernizr">
             <b class="header">Modernizr</b> 
