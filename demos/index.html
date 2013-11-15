@@ -654,31 +654,56 @@ var myCar = Object.create(carProto, {
             <b class="header"><tt>forms</tt> Options</b>
         </p>
         <ul>
-            <li><strong>customMessages</strong> (boolean): <tt>false</tt> (default) || <tt>true</tt>. If <tt>customMessages</tt> is set to true. Webshims Lib will implement a DOM-Property called customValidationMessage, which can be changed through the $.webshims.validityMessages-Array.</li>
-            <li><strong>lazyCustomMessages</strong> (boolean): <tt>false</tt> (default) || <tt>true</tt>. Similiar to <tt>customMessages</tt>, but the data is loaded more lazily (good for performance). The customValidationMessage property is not always available on DOM-Ready.</li>
-            <li><strong>replaceValidationUI</strong> (boolean): <tt>false</tt> (default) || <tt>true</tt>. Replaces the browser validation UI with a custom styleable UI.</li>
-            <li><strong>placeholderType</strong> (string): <tt>"value"</tt> (default) || <tt>"over"</tt>. If placeholderType is set to "over", the polyfill uses the overLabel technique to create a placeholder and doesn't "pollute" the value property.</li>
-            <li><strong>customDatalist</strong> (boolean): <tt>false</tt> (default) || <tt>true</tt>. Allows to use custom styleable datalist elements in all browsers.</li>
-            <li><strong>overridePlaceholder</strong> (boolean): </li>
-            <li><strong>iVal</strong> (mixed options): options for the Instant/Live form validation feature (<a href="webforms/1-webforms-lang-custom-bubble.html#instant-validation">see</a>)</li>
-            <li><strong>addValidators</strong> (boolean): <tt>false</tt> (default) || <tt>true</tt>: Should Webshims implement some new custom validators. see: <a href="webforms/4-webforms-custom-validity.html">custom validity</a> </li>
-            <li><strong>listFilter</strong> (string): <tt>*</tt> (default) || <tt>^</tt> || <tt>!</tt>: How to search/filter insdie of a datalist. * (wildcard search), ^ (matches the beginning) or ! (no search at all). This option can be changed on the input[list] element itself, by using data-list-filter="^".</li>
+            <li>
+                <strong>customMessages</strong> <em>boolean</em> If set to true, Webshims will implement a DOM-Property called customValidationMessage, which can be changed through the $.webshims.validityMessages-Array.<br>
+                <em>default: false</em>
+            </li>
+            <li>
+                <strong>lazyCustomMessages</strong> <em>boolean</em> Similiar to <tt>customMessages</tt>, but the data is lazily loaded for better performance. The customValidationMessage property is not always available on DOM-Ready.<br>
+                <em>default: false</em>
+            </li>
+            <li>
+                <strong>replaceValidationUI</strong> <em>boolean</em> Replaces the browser validation UI with a custom styleable UI. <br>
+                <em>default: false</em>
+            </li>
+            <li>
+                <strong>placeholderType</strong> <em>string</em> Enumeration with value <tt>value</tt> or <tt>over</tt>. If set to "over", the polyfill uses the overLabel technique to create a placeholder and doesn't "pollute" the value property. <br>
+                <em>default: value</em>
+            </li>
+            <li>
+                <strong>customDatalist</strong> <em>boolean</em> Allows to use custom styleable datalist elements in all browsers. <br>
+                <em>default: false</em>
+            </li>
+            <li>
+                <strong>overridePlaceholder</strong> <em>boolean</em>
+            </li>
+            <li>
+                <strong>iVal</strong> <em>mixed object</em> <a href="webforms/1-webforms-lang-custom-bubble.html#instant-validation"> live form validation example</a>
+            </li>
+            <li>
+                <strong>addValidators</strong> <em>boolean</em> Should Webshim implement some new custom validators. <a href="webforms/4-webforms-custom-validity.html">custom validity example</a> <br>
+                <em>default: false</em>
+            </li>
+            <li>
+                <strong>listFilter</strong> <em>string</em> Enumeration with value <tt>*</tt> or <tt>^</tt> or <tt>!</tt>: How to search/filter insdie of a datalist. * (wildcard search), ^ (matches the beginning) or ! (no search at all). This option can be changed on the input[list] element itself, by using data-list-filter="^". <br>
+                <em>default: *</em>
+            </li>
         </ul>
         
         <p id="Forms-forms-ext">
             <b class="header"><tt>forms-ext</tt> Options</b>
         </p>
         <ul>
-            <li><strong>replaceUI</strong> (boolean): <tt>false</tt> (default) || <tt>true</tt>. If replaceUI is set to true the number, time, month, date <!--, datetime --> and range Widgets are replaced in all browsers (also in browser, which have implemented these types). This is useful, if you want to style the UI in all browsers.</li>
-            <li><strong>types</strong> (string): <tt>'datetime-local month date time range number'</tt>. A white space seperated string. Possible values are: datetime-local range date time number month color (Note: color is left out from the default string). If one of the listed input types is not supported. Webshims will load the forms-ext API and UI package and implement all types.</li>
-            <li><strong>widgets</strong> (options): widgets is a general options object for all input options. For more information see <a href="webforms/3-webforms-widgets.html#configure-ui">here</a> </li>
-            <li><strong>date</strong> (options): for more information see <a href="webforms/3-webforms-widgets.html#date-cfg">here</a></li>
+            <li><strong>replaceUI</strong> <em>boolean</em> <tt>false</tt> (default) || <tt>true</tt>. If replaceUI is set to true the number, time, month, date <!--, datetime --> and range Widgets are replaced in all browsers (also in browser, which have implemented these types). This is useful, if you want to style the UI in all browsers.</li>
+            <li><strong>types</strong> <em>string</em> <tt>'datetime-local month date time range number'</tt>. A white space seperated string. Possible values are: datetime-local range date time number month color (Note: color is left out from the default string). If one of the listed input types is not supported. Webshims will load the forms-ext API and UI package and implement all types.</li>
+            <li><strong>widgets</strong> <em>object</em> widgets is a general options object for all input options. <a href="webforms/3-webforms-widgets.html#configure-ui">more information</a> </li>
+            <li><strong>date</strong> <em>object</em> <a href="webforms/3-webforms-widgets.html#date-cfg"> example </a></li>
             <!--<li><strong>datetime-local</strong> (options): for more information see <a href="webforms/3-webforms-widgets.html#datetime-local-cfg">here</a></li>-->
-            <li><strong>month</strong> (options): for more information see <a href="webforms/3-webforms-widgets.html#month-cfg">here</a></li>
-            <li><strong>number</strong> (options): for more information see <a href="webforms/3-webforms-widgets.html#number-cfg">here</a></li>
-            <li><strong>time</strong> (options): for more information see <a href="webforms/3-webforms-widgets.html#time-cfg">here</a></li>
-            <li><strong>range</strong> (options): for more information see <a href="webforms/3-webforms-widgets.html#range-cfg">here</a></li>
-            <li><strong>color</strong> (options): </li>
+            <li><strong>month</strong> <em>object</em> <a href="webforms/3-webforms-widgets.html#month-cfg">example</a></li>
+            <li><strong>number</strong> <em>object</em> <a href="webforms/3-webforms-widgets.html#number-cfg">example</a></li>
+            <li><strong>time</strong> <em>object</em> <a href="webforms/3-webforms-widgets.html#time-cfg">example</a></li>
+            <li><strong>range</strong> <em>object</em> <a href="webforms/3-webforms-widgets.html#range-cfg">example</a></li>
+            <li><strong>color</strong> <em>object</em> </li>
         </ul>
         
         <p id="Forms-extensions">
@@ -689,7 +714,7 @@ var myCar = Object.create(carProto, {
             <li><strong>event: lastinvalid</strong>: <tt>lastinvalid</tt> is an extended, bubbling, (but) uncancelable event, which is triggered on the last invalid form element. The property <tt>invalidlist</tt> is a jQuery-collection of all current invalid elements.</li>
             <li><strong>event: changedvalid/changedinvalid</strong>: Event is triggered, if the value of the element was changed and is marked as valid/invalid (see also: .form-ui-valid/.form-ui-invalid).</li>
             <li><strong>event: datalistselect</strong>:  Event is triggered on the input element, if the user selects a value from an option inside of the associated datalist (only available, if customDatalist is set to true)</li>
-            <li><strong>selectors for CSS/JS: .ws-instantvalidation (.ws-invalid/.ws-success)</strong>: The class 'ws-instantvalidation' on a form element will implement UX improved Instant Validation for this form. The classes .ws-invalid (similiar to <a href="http://www.w3.org/TR/selectors4/#user-pseudos">:user-error</a>) and .ws-success will mark either "touched" invalid element wrappers or valid and "filled" element wrappers. <a href="webforms/1-webforms-lang-custom-bubble.html#instant-validation">see also</a></li>
+            <li><strong>selectors for CSS/JS: .ws-instantvalidation (.ws-invalid/.ws-success)</strong>: The class 'ws-instantvalidation' on a form element will implement UX improved Instant Validation for this form. The classes .ws-invalid (similiar to <a href="http://www.w3.org/TR/selectors4/#user-pseudos">:user-error</a>) and .ws-success will mark either "touched" invalid element wrappers or valid and "filled" element wrappers. <a href="webforms/1-webforms-lang-custom-bubble.html#instant-validation">example</a></li>
             <li><strong>selectors for CSS/JS: .user-success/.user-error</strong>: which work similar to <a href="https://developer.mozilla.org/en/CSS/%3A-moz-ui-valid">:-moz-ui-valid</a>/<a href="https://developer.mozilla.org/en/CSS/%3A-moz-ui-invalid">:-moz-ui-invalid</a> or <a href="http://www.w3.org/TR/selectors4/#user-pseudos">:user-error</a></li>
             <li><strong>selectors for CSS/JS: .placeholder-visible</strong>: which work similar to <a href="https://developer.mozilla.org/en/CSS/%3A-moz-placeholder">:-moz-placeholder</a>, <a href="http://msdn.microsoft.com/en-us/ie/hh272905#_HTML5FormsVal">:-ms-input-placeholder</a> and <a href="http://css-tricks.com/snippets/css/style-placeholder-text/">::-webkit-input-placeholder</a></li>
             <li><strong>selectors for CSS: .prop-checked</strong>: which work equal to <a href="http://www.w3.org/TR/selectors4/#checked">:checked</a> pseudoclass. This class is only added, if the browser does not support the <tt>:checked</tt> pseudoclass (i.e. IE8-).</li>
@@ -715,7 +740,7 @@ var myCar = Object.create(carProto, {
             <small> <a href="http://modernizr.com/download/#-canvas-audio-video-input-inputtypes-localstorage-sessionstorage-geolocation-shiv-cssclasses-addtest-prefixed-testprop-testallprops-prefixes-domprefixes-elem_track-load"> Modernizr detections used by webshim</a> </small>
         </p>
 
-        
+
 
         <p id="Customizing-extending">
             <b class="header">Writing a New Polyfill</b> 
