@@ -32,16 +32,14 @@ webshims.register('form-datalist-lazy', function($, webshims, window, document, 
 			var that = this;
 			this.hideList = $.proxy(that, 'hideList');
 			
-			this._updateOptions();
-			
-			this.popover = webshims.objectCreate(webshims.wsPopover, {}, this.options.popover);
-			this.shadowList = this.popover.element.addClass('datalist-polyfill');
-			
-			
 			this.index = -1;
 			this.input = opts.input;
 			this.arrayOptions = [];
 			
+			this._updateOptions();
+			
+			this.popover = webshims.objectCreate(webshims.wsPopover, {}, this.options.popover);
+			this.shadowList = this.popover.element.addClass('datalist-polyfill');
 			
 			this.shadowList
 				.on('mouseenter.datalistWidget mousedown.datalistWidget click.datalistWidget', 'li', function(e){
@@ -65,7 +63,8 @@ webshims.register('form-datalist-lazy', function($, webshims, window, document, 
 			$(opts.input)
 				.attr({
 					//role: 'combobox',
-					'aria-haspopup': 'true'
+					'aria-haspopup': 'true',
+					'aria-autocomplete': 'both' //support only list?
 				})
 				.on({
 					'input.datalistWidget': function(){
@@ -133,7 +132,7 @@ webshims.register('form-datalist-lazy', function($, webshims, window, document, 
 				.on('updateDatalist.datalistWidget', $.proxy(this, '_resetListCached'))
 				.on('remove', function(e){
 					if(!e.originalEvent){
-						that.detroy();
+						that.destroy();
 					}
 				})
 			;
@@ -179,8 +178,7 @@ webshims.register('form-datalist-lazy', function($, webshims, window, document, 
 			}
 		},
 		_updateOptions: function(){
-			this.options = $.extend(true, {}, options.list, $(this.input).data('list') || {});
-			
+			this.options = webshims.getOptions(this.input, 'list', options.list);
 			
 			if($(this.input).prop('multiple') && $(this.input).prop('type') == 'email'){
 				this.options.multiple = true;
@@ -209,11 +207,6 @@ webshims.register('form-datalist-lazy', function($, webshims, window, document, 
 				webshims.error(".mark-option-text is depreacated. Use highlight option.");
 			}
 			
-			if($(this.input).data('listFilter')){
-				this.listFilter = $(this.input).data('listFilter');
-				webshims.error("[data-list-filter] is depreacated. Use filter option.");
-			}
-			
 			if($(this.input).hasClass('list-multiple')){
 				this.options.multiple = true;
 				webshims.error(".list-multiple is depreacated. Use multiple option.");
@@ -233,8 +226,6 @@ webshims.register('form-datalist-lazy', function($, webshims, window, document, 
 			clearTimeout(this.updateTimer);
 			this.updateTimer = false;
 			
-			this._updateOptions();
-			
 			this.lastCompletedValue = "";
 			
 			var list = [];
@@ -249,7 +240,7 @@ webshims.register('form-datalist-lazy', function($, webshims, window, document, 
 						value: this.options.noHtmlEscape ? value : value.replace(lReg, '&lt;').replace(gReg, '&gt;'),
 						label: $.trim($.attr(rElem, 'label')) || '',
 						className: rElem.className || '',
-						elem: options.getOptionContent ? rElem : null
+						elem: rElem
 					};
 					
 					if(rItem.label){
@@ -289,7 +280,7 @@ webshims.register('form-datalist-lazy', function($, webshims, window, document, 
 		getOptionContent: function(item){
 			var content;
 			var args = [{instance: this, item: item}];
-			if( ( content = $(this.input).triggerHandler('getoptioncontent', args) || (this.options.getOptionContent && this.options.getOptionContent.apply(this.input, args)) ) && content.indexOf && content.indexOf('option-value') == -1 ){
+			if( ( content = $(this.input).triggerHandler('getoptioncontent', args) ) && content.indexOf && content.indexOf('option-value') == -1 ){
 				content += '<span class="option-value" style="display: none;">'+ item.value +'</span>';
 			} 
 			if(content == null){
@@ -506,6 +497,7 @@ webshims.register('form-datalist-lazy', function($, webshims, window, document, 
 				
 				$(this.input)
 					.prop('value', newValue)
+					.trigger('select')
 					.triggerHandler('updateInput')
 				;
 				this.changedValue = true;

@@ -1,6 +1,6 @@
 {
   "name": "webshims",
-  "version": "1.11.5",
+  "version": "1.12.0",
   "title": "Webshims - polyfills jQuery with many HTML5 features",
   "licenses": [
     {
@@ -36,7 +36,7 @@
     "type": "git",
     "url": "https://github.com/aFarkas/webshim.git"
   },
-  "main": "./master/demos/js-webshim/minified/",
+  "main": "js-webshim",
   "devDependencies": {
     "phantomjs": ">=1.8.2",
     "grunt-css": ">=0.5.4",

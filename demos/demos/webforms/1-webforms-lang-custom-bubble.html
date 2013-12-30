@@ -117,7 +117,7 @@ $('form').attr('novalidate', 'novalidate');
 				<li>customValidationMessage (webshims DOM-Property) (Note: to get this new property the <code>customMessages</code> or <code>lazyCustomMessages</code> option has to be set to true before calling <code>$.webshims.polyfill();</code>)</li>
 				<li>$.webshims.validityAlert (Helper Object)</li>
 				<li>data-errormessage/x-moz-errormessage content attributes (are automatically used by validityAlert)</li>
-				<li>.ws-instantvalidation for Live Inline Form Validation</li>
+				<li>.ws-validate for Live Inline Form Validation</li>
 			</ul>
 			<p>Preventing the default and replacing the invalid-bubble with your own message, could look like this:</p>
 <code class="block run-once">
@@ -160,14 +160,14 @@ $('input[required]').setCustomValidity('');
 			
 			<h3 id="instant-validation">Improving UX using the Instant Form Validation feature</h3>
 			
-			<p>Webshims can dramatically enhance the UX of the HTML5 form validation by adding the class 'ws-instantvalidation' to your form element. The instant validation feature can be configured by changing the iVal options:</p>
+			<p>Webshims can dramatically enhance the UX of the HTML5 form validation by adding the class 'ws-validate' to your form element. The instant validation feature can be configured by changing the iVal options:</p>
 <code class="block">
 $.webshims.setOptions('forms', { 
 	iVal: {
 		fieldWrapper: '.form-element', // default: ':not(span, em, strong, p)'
 		handleBubble: 'hide', // defaults: true. true (bubble and focus first invalid element) | false (no focus and no bubble) | 'hide' (no bubble, but focus first invalid element)
 		fx: 'slide', //defaults 'slide' or 'fade'
-		sel: '.ws-instantvalidation' // simple selector for the form element, setting this to false, will remove this feature
+		sel: '.ws-validate' // simple selector for the form element, setting this to false, will remove this feature
 	}
 });
 </code>			
@@ -288,7 +288,7 @@ $.webshims.activeLang("en");
 </code>
 			<section>
 				<h3>Simple Demo</h3>
-				<form action="#" class="ws-instantvalidation">
+				<form action="#" class="ws-validate">
 					<p class="required"><span>*</span> Required fields</p>
 					<fieldset>
 						<div class="form-element">

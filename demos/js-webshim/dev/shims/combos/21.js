@@ -178,8 +178,7 @@
 	});
 	webshims.isReady('geolocation', true);
 })(webshims.$);
-
-webshims.register('details', function($, webshims, window, doc, undefined, options){
+;webshims.register('details', function($, webshims, window, doc, undefined, options){
 	var isInterActiveSummary = function(summary){
 		var details = $(summary).parent('details');
 		if(details[0] && details.children(':first').get(0) === summary){
@@ -327,8 +326,7 @@ webshims.register('details', function($, webshims, window, doc, undefined, optio
 		initDetails = false;
 	});
 });
-
-webshims.register('mediaelement-jaris', function($, webshims, window, document, undefined, options){
+;webshims.register('mediaelement-jaris', function($, webshims, window, document, undefined, options){
 	"use strict";
 	
 	var mediaelement = webshims.mediaelement;
@@ -784,9 +782,9 @@ webshims.register('mediaelement-jaris', function($, webshims, window, document, 
 	})();
 	
 	
-	var transformDimension = (function(){
+	var getComputedDimension = (function(){
 		var dimCache = {};
-		var getRealDims = function(data){
+		var getVideoDims = function(data){
 			var ret, poster, img;
 			if(dimCache[data.currentSrc]){
 				ret = dimCache[data.currentSrc];
@@ -811,54 +809,102 @@ webshims.register('mediaelement-jaris', function($, webshims, window, document, 
 						} else {
 							delete dimCache[poster];
 						}
+						img.onload = null;
 					};
 					img.src = poster;
-					if(img.complete){
+					if(img.complete && img.onload){
 						img.onload();
 					}
 				}
 			}
 			return ret || {width: 300, height: data._elemNodeName == 'video' ? 150 : 50};
 		};
-		return function(data){
-			var realDims, ratio;
-			var ret = data.elemDimensions;
+		
+		var getCssStyle = function(elem, style){
+			return elem.style[style] || (elem.currentStyle && elem.currentStyle[style]) || (window.getComputedStyle && (window.getComputedStyle( elem, null ) || {} )[style]) || '';
+		};
+		var minMaxProps = ['minWidth', 'maxWidth', 'minHeight', 'maxHeight'];
+		
+		var addMinMax = function(elem, ret){
+			var i, prop;
+			var hasMinMax = false;
+			for (i = 0; i < 4; i++) {
+				prop = getCssStyle(elem, minMaxProps[i]);
+				if(parseFloat(prop, 10)){
+					hasMinMax = true;
+					ret[minMaxProps[i]] = prop;
+				}
+			}
+			return hasMinMax;
+		};
+		var retFn = function(data){
+			var videoDims, ratio, hasMinMax;
+			var elem = data._elem;
+			var autos = {
+				width: getCssStyle(elem, 'width') == 'auto',
+				height: getCssStyle(elem, 'height') == 'auto'
+			};
+			var ret  = {
+				width: !autos.width && $(elem).width(),
+				height: !autos.height && $(elem).height()
+			};
 			
-			if(ret.width == 'auto' || ret.height == 'auto'){
-				ret = $.extend({}, data.elemDimensions);
-				realDims = getRealDims(data);
-				ratio = realDims.width / realDims.height;
+			if(autos.width || autos.height){
+				videoDims = getVideoDims(data);
+				ratio = videoDims.width / videoDims.height;
 				
-				if(ret.width == 'auto' && ret.height == 'auto'){
-					ret = realDims;
-				} else if(ret.width == 'auto'){
-					data.shadowElem.css({height: ret.height});
-					ret.width = data.shadowElem.height() * ratio;
-				} else {
-					data.shadowElem.css({width: ret.width});
-					ret.height = data.shadowElem.width() / ratio;
+				if(autos.width && autos.height){
+					ret.width = videoDims.width;
+					ret.height = videoDims.height;
+				} else if(autos.width){
+					ret.width = ret.height * ratio;
+				} else if(autos.height){
+					ret.height = ret.width / ratio;
+				}
+				
+				if(addMinMax(elem, ret)){
+					data.shadowElem.css(ret);
+					if(autos.width){
+						ret.width = data.shadowElem.height() * ratio;
+					} 
+					if(autos.height){
+						ret.height = ((autos.width) ? ret.width :  data.shadowElem.width()) / ratio;
+					}
+					if(autos.width && autos.height){
+						data.shadowElem.css(ret);
+						ret.height = data.shadowElem.width() / ratio;
+						ret.width = ret.height * ratio;
+						
+						data.shadowElem.css(ret);
+						ret.width = data.shadowElem.height() * ratio;
+						ret.height = ret.width / ratio;
+						
+					}
+					if(!Modernizr.video){
+						ret.width = data.shadowElem.width();
+						ret.height = data.shadowElem.height();
+					}
 				}
 			}
 			return ret;
 		};
+		
+		return retFn;
 	})();
+	
 	var setElementDimension = function(data, hasControls){
 		var dims;
-		var elem = data._elem;
+		
 		var box = data.shadowElem;
-		$(elem)[hasControls ? 'addClass' : 'removeClass']('webshims-controls');
+		$(data._elem)[hasControls ? 'addClass' : 'removeClass']('webshims-controls');
 
-		if(data.isActive == 'third'){
+		if(data.isActive == 'third' || data.activating == 'third'){
 			if(data._elemNodeName == 'audio' && !hasControls){
 				box.css({width: 0, height: 0});
 			} else {
-				data.elemDimensions = {
-					width: elem.style.width || $.attr(elem, 'width') || $(elem).width(),
-					height: elem.style.height || $.attr(elem, 'height') || $(elem).height()
-				};
-				dims = transformDimension(data);
-				dims.minWidth = elem.style.minWidth;
-				dims.minHeight = elem.style.minHeight;
+				data._elem.style.display = '';
+				dims = getComputedDimension(data);
+				data._elem.style.display = 'none';
 				box.css(dims);
 			}
 		}
@@ -917,6 +963,8 @@ webshims.register('mediaelement-jaris', function($, webshims, window, document, 
 			}, 1);
 			return;
 		}
+		
+		var attrStyle = {};
 
 		if(loadedSwf < 1){
 			loadedSwf = 1;
@@ -927,7 +975,8 @@ webshims.register('mediaelement-jaris', function($, webshims, window, document, 
 			data = webshims.data(elem, 'mediaelement');
 		}
 		
-		if($.attr(elem, 'height') || $.attr(elem, 'width')){
+		if((attrStyle.height = $.attr(elem, 'height') || '') || (attrStyle.width = $.attr(elem, 'width') || '')){
+			$(elem).css(attrStyle);
 			webshims.warn("width or height content attributes used. Webshims prefers the usage of CSS (computed styles or inline styles) to detect size of a video/audio. It's really more powerfull.");
 		}
 		
@@ -1034,7 +1083,7 @@ webshims.register('mediaelement-jaris', function($, webshims, window, document, 
 			box.insertBefore(elem);
 			
 			if(hasNative){
-				$.extend(data, {volume: $.prop(elem, 'volume'), muted: $.prop(elem, 'muted'), paused: $.prop(elem, 'paused')});
+				$.extend(data, {volume: $.prop(elem, 'volume'), muted: $.prop(elem, 'muted')});
 			}
 			
 			webshims.addShadowDom(elem, box);
@@ -1485,8 +1534,7 @@ webshims.register('mediaelement-jaris', function($, webshims, window, document, 
 		})();
 	}
 	
-});
-webshims.register('track', function($, webshims, window, document, undefined){
+});;webshims.register('track', function($, webshims, window, document, undefined){
 	"use strict";
 	var mediaelement = webshims.mediaelement;
 	var id = new Date().getTime();
@@ -2279,8 +2327,8 @@ modified for webshims
 		}
 	}, 'prop');
 
-	
-	$(document).on('emptied ended updatetracklist', function(e){
+	//wsmediareload
+	var thUpdateList = function(e){
 		if($(e.target).is('audio, video')){
 			var baseData = webshims.data(e.target, 'mediaelementBase');
 			if(baseData){
@@ -2290,7 +2338,7 @@ modified for webshims
 				}, 0);
 			}
 		}
-	});
+	};
 	
 	var getNativeReadyState = function(trackElem, textTrack){
 		return textTrack.readyState || trackElem.readyState;
@@ -2330,6 +2378,7 @@ modified for webshims
 			.each(function(){
 				updateMediaTrackList.call(this);
 			})
+			.on('emptied updatetracklist wsmediareload', thUpdateList)
 			.each(function(){
 				if(Modernizr.track){
 					var shimedTextTracks = $.prop(this, 'textTracks');

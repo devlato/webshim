@@ -1,19 +1,35 @@
 /*global module:false*/
 module.exports = function(grunt){
-
+	var DISTPATH = "js-webshim";
+	var MINPATH = DISTPATH+"/minified";
+	var DEVPATH = DISTPATH+"/dev";
+	
 	// Project configuration.
 	grunt.initConfig({
-		pkg: '<json:package.json>',
+		pkg: grunt.file.readJSON('package.json'),
+		bower: grunt.file.readJSON('bower.json'),
+		jq: grunt.file.readJSON('webshims.jquery.json'),
 		meta: {
 			banner: '/*! v<%= pkg.version %> - ' +
 			'<%= grunt.template.today("yyyy-mm-dd") %>\n' +
 			'<%= pkg.homepage ? "* " + pkg.homepage + "\n" : "" %> */'
 		},
 		//concat is changed through webshimscombos
-		concat: {},
+		concat: {
+			options: {
+				separator: ';'
+			},
+			demo: {
+				src: ['demos/demo-js/src/prism.js', 'demos/demo-js/src/behavior.js'],
+				dest: 'demos/demo-js/demo.js'
+			}
+		},
 		//copy and uglify are changed through cfgcopymin
-		copy: {},
-		cssmin: getFiles('src', 'demos/js-webshim/minified', '**/*.css'),
+		copy: {
+			main: {},
+			legacy: {expand: true, src: [DISTPATH+'/**'], dest: 'demos'}
+		},
+		cssmin: getFiles('src', MINPATH, '**/*.css'),
 
 		sass: { 
 			dist: { 
@@ -26,33 +42,67 @@ module.exports = function(grunt){
 				}]
 			}
 		},
+		/*not used for build but might be really helpfull for production*/
+		/* should we create a npm grunt task???*/
+		optimizePolyfiller: {
+			options: {
+				src: 'js-webshim/dev/', //required
+				features: 'forms mediaelement',
 
+				dest: 'polyfiller-custom.js',
+				//should existing uglify be extended to uglify custom polyfiller? default: false
+				uglify: true,
+				
+				//should initially loaded files inlined into polyfiller? default: false
+				inlineInitFiles: true,
+				/*
+				//only in case inlineInitFiles is true
+				*/
+				//which lang or langs are used on page?
+				lang: 'fr it',
+				//forms feature option default: false
+				customMessages: false,
+				//forms-ext feature option default: false
+				replaceUI: false,
+				//is swfobject not used on site default: true
+				includeSwfmini: true
+			}
+		},
 		uglify: {
 			options: {
 				beautify: {
 					ascii_only : true
 				},
+				preserveComments: 'some',
 				compress: {
 				global_defs: {
 					"WSDEBUG": false
 				},
 					dead_code: true
 				}
-			}			  
+			},
+			demo: {
+				src: 'demos/demo-js/demo.js',
+				dest: 'demos/demo-js/demo.js'
+			}
 		},
 		watch: {
 			sass: {
-		      files: ['src/shims/styles/scss/*.scss'],
-		      tasks: ['sass']
-		   },
-		   css: {
-		      files: ['src/shims/**/*.css'],
-		      tasks: ['cfgcopymin', 'copy']
-		   },
-		   js: {
-		      files: ['src/**/*.js'],
-		      tasks: ['webshimscombos', 'concat', 'cfgcopymin', 'copy']
-		   }
+				files: ['src/shims/styles/scss/*.scss'],
+				tasks: ['sass']
+			},
+			css: {
+				files: ['src/shims/**/*.css'],
+				tasks: ['cfgcopymin', 'copy']
+			},
+			js: {
+				files: ['src/**/*.js'],
+				tasks: ['webshimscombos', 'concat', 'cfgcopymin', 'copy']
+			},
+			demos: {
+				files: ['demos/demo-js/src/**/*.js'],
+				tasks: ['concat']
+			}
 		}
 	});
 	
@@ -70,6 +120,7 @@ module.exports = function(grunt){
 			]
 		}, 
 		function(err, result, code) {
+			var concatCfg;
 			result = result.toString();
 			if(!err && result.indexOf && result.indexOf('done') == -1){
 				
@@ -78,8 +129,16 @@ module.exports = function(grunt){
 				} catch(er){
 					grunt.warn('parse error');
 				}
-				grunt.config('concat', combos);
 				
+				concatCfg = grunt.config('concat');
+				if(concatCfg){
+					concatCfg.combos = {files: combos.files};
+				} else {
+					concatCfg = combos.files;
+				}
+				//grunt.warn(JSON.stringify(concatCfg))
+				grunt.config('concat', concatCfg);
+				grunt.file.write(DEVPATH+'/shims/combos/comboinfo.json', result);
 				done(code);
 				return;
 			}
@@ -93,10 +152,11 @@ module.exports = function(grunt){
 				result.split('\n').forEach(grunt.log.error, grunt.log);
 				grunt.warn('PhantomJS exited unexpectedly with exit code ' + code + '.');
 			}
+			
 			done(code);
-		});		
-	
+		});
 	});
+	
 	grunt.registerTask('cfgcopymin', 'config min and copy tasks.', function() {
 		var files = getFiles('src', false, '**', 'demos/js-webshim/dev', '*.js');
 		var path = require('path');
@@ -107,27 +167,30 @@ module.exports = function(grunt){
 		for(var i in files){
 			file = files[i];
 			if(grunt.file.isFile(file)){
-				minPath = path.join('demos/js-webshim/minified', i);
+				minPath = path.join(MINPATH, i);
 				if(/\.js$/.test(file)){
 					minTask[minPath] = [file];
 					found = true;
 				}
 				copyTask[minPath] = [file];
-				copyTask[path.join('demos/js-webshim/dev', i)] = [file];
+				copyTask[path.join(DEVPATH, i)] = [file];
 			}
 		}
 		if(!found){
-			minTask[path.join('demos/js-webshim/minified', 'polyfiller.js')] = path.join('src', 'polyfiller.js');
+			minTask[path.join(MINPATH, 'polyfiller.js')] = path.join('src', 'polyfiller.js');
 		}
 		var uglifyCfg = grunt.config('uglify');
 		var copyCfg = grunt.config('copy');
+		
 		uglifyCfg.dist = { 'files': minTask };
-		copyCfg.dist = { 'files': copyTask };
+		copyCfg.main = { 'files': copyTask };
 		grunt.config('uglify', uglifyCfg);
 		grunt.config('copy', copyCfg);
 	});
 	
 	// Default task.
+	grunt.loadTasks('grunt-tasks/');
+	
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-copy');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
@@ -135,9 +198,9 @@ module.exports = function(grunt){
 	grunt.loadNpmTasks('grunt-css');
 	grunt.loadNpmTasks('grunt-contrib-sass');
 	
-	grunt.registerTask('default', ['webshimscombos', 'concat', 'sass', 'cfgcopymin', 'copy', 'cssmin', 'uglify']);
+	grunt.registerTask('default', ['webshimscombos', 'concat', 'sass', 'cfgcopymin', 'copy:main', 'cssmin', 'uglify', 'copy:legacy']);
 
-	grunt.registerTask('dev', ['webshimscombos', 'concat', 'sass', 'cfgcopymin', 'copy', 'watch']);
+	grunt.registerTask('dev', ['webshimscombos', 'concat', 'sass', 'cfgcopymin', 'copy:main', 'watch']);
 
 
 	function getFiles(srcdir, destdir, wildcard, compareDir, compareMatch) {

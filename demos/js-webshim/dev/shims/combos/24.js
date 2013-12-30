@@ -380,7 +380,7 @@ var rsubmittable = /^(?:select|textarea|input)/i;
 				;
 				return function(){
 					var elem = $(this).getNativeElement()[0];
-					return !!(!elem.disabled && !elem.readOnly && !types[elem.type] );
+					return !!(!elem.readOnly && !types[elem.type] && !$(elem).is(':disabled') );
 				};
 			})()
 		},
@@ -429,6 +429,7 @@ var rsubmittable = /^(?:select|textarea|input)/i;
 			}
 		}
 	});
+	
 	webshims.defineNodeNameProperties(nodeName, inputValidationAPI, 'prop');
 });
 
@@ -791,8 +792,7 @@ switch(desc.proptype) {
 webshims.defineNodeNamesProperties(['input', 'button'], formSubmitterDescriptors);
 
 }); //webshims.ready end
-
-webshims.register('form-shim-extend2', function($, webshims, window, document, undefined, options){
+;webshims.register('form-shim-extend2', function($, webshims, window, document, undefined, options){
 "use strict";
 var emptyJ = $([]);
 var isNumber = function(string){
@@ -819,6 +819,8 @@ var getGroupElements = function(elem){
 	}
 	return ret;
 };
+//support getSetAttribute
+var supportGetSetAttribute = !(('getSetAttribute' in  $.support) && !$.support.getSetAttribute);
 //submitbubbles for IE6-IE8
 var supportSubmitBubbles = !('submitBubbles' in $.support) || $.support.submitBubbles;
 var addSubmitBubbles = function(form){
@@ -960,7 +962,7 @@ if( !('maxLength' in document.createElement('textarea')) ){
 	});
 } 
 
-if(('getSetAttribute' in  $.support) && !$.support.getSetAttribute && $('<form novalidate></form>').attr('novalidate') == null){
+if(!supportGetSetAttribute && $('<form novalidate></form>').attr('novalidate') == null){
 	webshims.defineNodeNameProperty('form', 'novalidate', {
 		attr: {
 			set: function(val){
@@ -975,40 +977,133 @@ if(('getSetAttribute' in  $.support) && !$.support.getSetAttribute && $('<form n
 }
 
 
-if(Modernizr.formattribute === false || !Modernizr.fieldsetdisabled){
+if(!Modernizr.formattribute || !Modernizr.fieldsetdisabled || !Modernizr.fieldsetelements){
 	(function(){
-
-		(function(prop, undefined){
-			$.prop = function(elem, name, value){
-				var ret;
-				if(elem && elem.nodeType == 1 && value === undefined && $.nodeName(elem, 'form') && elem.id){
-					ret = document.getElementsByName(name);
-					if(!ret || !ret.length){
-						ret = document.getElementById(name);
+		if(!Modernizr.fieldsetdisabled){
+			var isFieldsetGroup = /^(?:fieldset)$/i;
+			var disableElementsSel = 'input, textarea, select, button';
+			$.extend($.expr[":"], {
+				"enabled": function( elem ) {
+					return elem.disabled === false || (isFieldsetGroup.test(elem.nodeName) && webshims.contentAttr(elem, 'disabled') == null && !$(elem).is('fieldset[disabled] *')) ;
+				},
+		
+				"disabled": function( elem ) {
+					return elem.disabled === true || (isFieldsetGroup.test(elem.nodeName) && (webshims.contentAttr(elem, 'disabled') != null || $(elem).is('fieldset[disabled] *')));
+				}
+			});
+			
+			
+			var groupControl = {
+				getElements: function(group){
+					$(disableElementsSel, group).each(groupControl.disable);
+				},
+				disable: function(){
+					if(!this.disabled){
+						webshims.data(this, 'groupedisabled', true);
+						this.disabled = true;
 					}
-					if(ret){
-						ret = $(ret).filter(function(){
-							return $.prop(this, 'form') == elem;
-						}).get();
-						if(ret.length){
-							return ret.length == 1 ? ret[0] : ret;
-						}
+				},
+				enable: function(){
+					if(this.disabled && webshims.data(this, 'groupedisabled')){
+						webshims.data(this, 'groupedisabled', false);
+						this.disabled = false;
 					}
 				}
-				return prop.apply(this, arguments);
 			};
-		})($.prop, undefined);
-		
-		var removeAddedElements = function(form){
-			var elements = $.data(form, 'webshimsAddedElements');
-			if(elements){
-				elements.remove();
-				$.removeData(form, 'webshimsAddedElements');
-			}
-		};
+			
+			$(window).on('unload', function(){
+				$(disableElementsSel).each(groupControl.enable);
+			});
+			
+			webshims.defineNodeNamesBooleanProperty(['fieldset'], 'disabled', {
+				set: function(value){
+					
+					if(value){
+						$(disableElementsSel, this).each(groupControl.disable);
+					} else if(!$(this).is('fieldset[disabled] *')){
+						var nested = $('fieldset[disabled]', this);
+						var elements = $(disableElementsSel, this);
+						
+						if(nested.length){
+							elements = elements.not('fieldset[disabled] *');
+						}
+						
+						elements.each(groupControl.enable);
+					}
+				},
+				initAttr: true,
+				useContentAttribute: true
+			});
+			
+			['input', 'textarea', 'select', 'button'].forEach(function(nodeName){
+				var desc = webshims.defineNodeNameProperty(nodeName, 'disabled', {
+					prop: {
+						set: function(value){
+							if(value){
+								webshims.data(this, 'groupedisabled', false);
+								desc.prop._supset.call(this, value);
+							} else if($(this).is('fieldset[disabled] *')){
+								webshims.data(this, 'groupedisabled', true);
+								desc.prop._supset.call(this, true);
+							} else {
+								webshims.data(this, 'groupedisabled', false);
+								desc.prop._supset.call(this, value);
+							}
+						},
+						get: function(){
+							var ret = desc.prop._supget.call(this);
+							return ret ? !webshims.data(this, 'groupedisabled') : ret;
+						}
+					},
+					removeAttr: {
+						value: function(){
+							desc.set.call(this, false);
+						}
+					} 
+				});
+			});
+			
+			webshims.addReady(function(context){
+				
+				$(context)
+					.filter('fieldset[disabled], fieldset[disabled] *')
+					.find(disableElementsSel)
+					.each(groupControl.disable)
+				;
+			});
+		}
 		
 		
 		if(!Modernizr.formattribute){
+			(function(prop, undefined){
+				$.prop = function(elem, name, value){
+					var ret;
+					if(elem && elem.nodeType == 1 && value === undefined && $.nodeName(elem, 'form') && elem.id){
+						ret = document.getElementsByName(name);
+						if(!ret || !ret.length){
+							ret = document.getElementById(name);
+						}
+						if(ret){
+							ret = $(ret).filter(function(){
+								return $.prop(this, 'form') == elem;
+							}).get();
+							if(ret.length){
+								return ret.length == 1 ? ret[0] : ret;
+							}
+						}
+					}
+					return prop.apply(this, arguments);
+				};
+			})($.prop, undefined);
+			
+			var removeAddedElements = function(form){
+				var elements = $.data(form, 'webshimsAddedElements');
+				if(elements){
+					elements.remove();
+					$.removeData(form, 'webshimsAddedElements');
+				}
+			};
+		
 			webshims.defineNodeNamesProperty(['input', 'textarea', 'select', 'button', 'fieldset'], 'form', {
 				prop: {
 					get: function(){
@@ -1105,9 +1200,37 @@ if(Modernizr.formattribute === false || !Modernizr.fieldsetdisabled){
 					}
 				});
 			});
+			
+			if(!$.fn.finish && parseFloat($.fn.jquery, 10) < 1.9){
+				var rCRLF = /\r?\n/g,
+					rinput = /^(?:color|date|datetime|datetime-local|email|hidden|month|number|password|range|search|tel|text|time|url|week)$/i,
+					rselectTextarea = /^(?:select|textarea)/i;
+				$.fn.serializeArray = function() {
+						return this.map(function(){
+							var elements = $.prop(this, 'elements');
+							return elements ? $.makeArray( elements ) : this;
+						})
+						.filter(function(){
+							return this.name && !$(this).is(':disabled') &&
+								( this.checked || rselectTextarea.test( this.nodeName ) ||
+									rinput.test( this.type ) );
+						})
+						.map(function( i, elem ){
+							var val = $( this ).val();
+				
+							return val == null ?
+								null :
+								$.isArray( val ) ?
+									$.map( val, function( val, i ){
+										return { name: elem.name, value: val.replace( rCRLF, "\r\n" ) };
+									}) :
+									{ name: elem.name, value: val.replace( rCRLF, "\r\n" ) };
+						}).get();
+					};
+			}
 		}
 		
-		if(!Modernizr.fieldsetdisabled){
+		if(!Modernizr.fieldsetelements){
 			webshims.defineNodeNamesProperty(['fieldset'], 'elements', {
 				prop: {
 					get: function(){
@@ -1117,34 +1240,6 @@ if(Modernizr.formattribute === false || !Modernizr.fieldsetdisabled){
 					writeable: false
 				}
 			});
-		}
-		
-		if(!$.fn.finish && parseFloat($.fn.jquery, 10) < 1.9){
-			var rCRLF = /\r?\n/g,
-				rinput = /^(?:color|date|datetime|datetime-local|email|hidden|month|number|password|range|search|tel|text|time|url|week)$/i,
-				rselectTextarea = /^(?:select|textarea)/i;
-			$.fn.serializeArray = function() {
-					return this.map(function(){
-						var elements = $.prop(this, 'elements');
-						return elements ? $.makeArray( elements ) : this;
-					})
-					.filter(function(){
-						return this.name && !this.disabled &&
-							( this.checked || rselectTextarea.test( this.nodeName ) ||
-								rinput.test( this.type ) );
-					})
-					.map(function( i, elem ){
-						var val = $( this ).val();
-			
-						return val == null ?
-							null :
-							$.isArray( val ) ?
-								$.map( val, function( val, i ){
-									return { name: elem.name, value: val.replace( rCRLF, "\r\n" ) };
-								}) :
-								{ name: elem.name, value: val.replace( rCRLF, "\r\n" ) };
-					}).get();
-				};
 		}
 		
 	})();

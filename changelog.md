@@ -1,3 +1,27 @@
+Release 1.12.0
+----------
+
+- all locale js files are fetched using XHR (use setOptions('ajax', {crossDomain: true}) to disable)
+- transfer JS options for many pickers to CSS (i.e.: showWeek: true -> .input-picker .ws-week {display: table-cell})
+- fixed fieldset:disabled implementation (wow, each version of IE behaves different + IE11 is worse than IE10!)
+- improved styles for type=range, datalist and progress element
+- most widgets are em scalable (base font is 13px)
+- fixed data-errormessage attribute
+- added grunt task to optimize polyfiller.js (-> grunt-tasks/optimize-polyfiller.js)
+
+Release 1.11.5 and 1.11.6
+----------
+
+- improved support for video width=auto/height=auto in combination with min-/max- / width/height
+- full support for jQuery mobile 1.3+
+- update es5-shim v.2.1.0
+- update Modernizr 2.7.1
+- youtube qualitity settings for Flash and iframe API (using ``vq`` parameter on src (/vq\=(small|medium|large|hd720|hd1080|highres)/i)
+- updated dutch language file (thx to @espaan)
+- a lot of undocumented option tweaks
+- implemented/polyfilled setSelectionRange/selectionStart/selectionEnd
+- added fieldset[disabled]/:disabled support (buggy, will be fixed with next release)
+
 Release 1.11.3
 ----------
 

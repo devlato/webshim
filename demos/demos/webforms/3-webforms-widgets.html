@@ -60,7 +60,12 @@
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 	
 	<script src="../../js-webshim/minified/extras/modernizr-custom.js"></script>
-	<script src="../../js-webshim/minified/polyfiller.js"></script>
+	<script src="../../../src/polyfiller.js"></script> 
+		<script>
+			webshims.setOptions('debug', 'noCombo');
+			//style calendar, datalist, validation bubble
+			//$('html').on('wspopoverbeforehide', false);
+		</script>
 
 	<!--
 		<script src="../../../src/polyfiller.js"></script> 
@@ -86,7 +91,7 @@
 	</script>
 	<script>
 		$(function(){
-			$('form').bind('firstinvalid', function(e){
+			$('form').on('firstinvalid', function(e){
 				//show the invalid alert for first invalid element
 				$.webshims.validityAlert.showFor( e.target );
 				//prevent browser from showing his native validation message
@@ -380,35 +385,8 @@ $.webshims.setOptions('forms-ext', {
 						restartView: 
 						<input type="checkbox" name="restartView" />
 					</label>
-					<label>
-						selectNav: 
-						<input type="checkbox" name="selectNav" />
-					</label>
-					<label>
-						showWeek: 
-						<input type="checkbox" name="showWeek" />
-					</label>
-					<label>
-						yearButtons: 
-						<input type="checkbox" name="yearButtons" />	
-					</label>
-					<label>
 						updateOnInput: 
 						<input type="checkbox" name="updateOnInput" />	
-					</label>
-					<label>
-						monthNames: 
-						<select name="monthNames">
-							<option>monthNamesShort</option>
-							<option>monthNames</option>
-						</select>
-					</label>
-					<label>
-						monthNamesHead: 
-						<select name="monthNamesHead">
-							<option>monthNames</option>
-							<option>monthNamesShort</option>
-						</select>
 					</label>
 					<label>
 						cols: 
@@ -608,34 +586,8 @@ $.webshims.setOptions('forms-ext', {
 						<input type="checkbox" name="restartView" />
 					</label>
 					<label>
-						selectNav: 
-						<input type="checkbox" name="selectNav" />
-					</label>
-					<label>
-						showWeek: 
-						<input type="checkbox" name="showWeek" />
-					</label>
-					<label>
-						yearButtons: 
-						<input type="checkbox" name="yearButtons" />	
-					</label>
-					<label>
 						updateOnInput: 
 						<input type="checkbox" name="updateOnInput" />	
-					</label>
-					<label>
-						monthNames: 
-						<select name="monthNames">
-							<option>monthNamesShort</option>
-							<option>monthNames</option>
-						</select>
-					</label>
-					<label>
-						monthNamesHead: 
-						<select name="monthNamesHead">
-							<option>monthNames</option>
-							<option>monthNamesShort</option>
-						</select>
 					</label>
 					<label>
 						cols: 
@@ -826,10 +778,6 @@ $.webshims.setOptions('forms-ext', {
 						<input type="checkbox" name="restartView" />
 					</label>
 					<label>
-						selectNav: 
-						<input type="checkbox" name="selectNav" />	
-					</label>
-					<label>
 						cols: 
 						<select name="cols">
 							<option value="4" select="">4</option>
@@ -845,16 +793,6 @@ $.webshims.setOptions('forms-ext', {
 						updateOnInput: 
 						<input type="checkbox" name="updateOnInput" />	
 					</label>
-					
-					<label>
-						monthNames: 
-						<select name="monthNames">
-							<option>monthNamesShort</option>
-							<option>monthNames</option>
-							<option>monthDigits</option>
-						</select>
-					</label>
-					
 					
 					<label>
 						formatMonthNames: 
