@@ -1114,7 +1114,7 @@
 			options: {
 				widgets: {
 					calculateWidth: true,
-					anmiate: true
+					animate: true
 				}
 	//			,replaceUI: false
 			},

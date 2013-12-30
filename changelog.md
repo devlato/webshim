@@ -1,6 +1,7 @@
 Release 1.12.0
 ----------
 
+- new dir structure for bower
 - all locale js files are fetched using XHR (use setOptions('ajax', {crossDomain: true}) to disable)
 - transfer JS options for many pickers to CSS (i.e.: showWeek: true -> .input-picker .ws-week {display: table-cell})
 - fixed fieldset:disabled implementation (wow, each version of IE behaves different + IE11 is worse than IE10!)
@@ -8,6 +9,8 @@ Release 1.12.0
 - most widgets are em scalable (base font is 13px)
 - fixed data-errormessage attribute
 - added grunt task to optimize polyfiller.js (-> grunt-tasks/optimize-polyfiller.js)
+- update flashcanvas fixes a security issue (with php)
+- a11y improvements
 
 Release 1.11.5 and 1.11.6
 ----------
