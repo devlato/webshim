@@ -433,8 +433,8 @@ input[type="color"] {
       padding: 0.30769em 0;
       font-weight: 700;
       color: #000; }
-      .input-picker .ws-picker-header > button .month-digit,
-      .input-picker .ws-picker-header > button .monthname-short {
+      .input-picker .ws-picker-header > button > .month-digit,
+      .input-picker .ws-picker-header > button > .monthname-short {
         display: none; }
       .input-picker .ws-picker-header > button:after {
         content: " ";
@@ -455,7 +455,7 @@ input[type="color"] {
     position: relative;
     zoom: 1;
     overflow: hidden; }
-    .input-picker .picker-grid .montname,
+    .input-picker .picker-grid .monthname,
     .input-picker .picker-grid .month-digit {
       display: none; }
   .input-picker.ws-size-1 .picker-list {
@@ -478,6 +478,8 @@ input[type="color"] {
       padding: 0.03846em 0.15385em; }
       .input-picker .picker-list.day-list td > button {
         padding: 0.42308em 0; }
+    .input-picker .picker-list.time-list > .ws-picker-header > button > .monthname {
+      display: inline; }
     .input-picker .picker-list.time-list td {
       padding: 0.07692em 0.38462em; }
       .input-picker .picker-list.time-list td > button {

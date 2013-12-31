@@ -636,8 +636,8 @@ $button-bgcolor: #f5f5f5;
 			font-weight: 700;
 			color: #000;
 			
-			.month-digit,
-			.monthname-short {
+			> .month-digit,
+			> .monthname-short {
 				display: none;
 			}
 			
@@ -673,7 +673,7 @@ $button-bgcolor: #f5f5f5;
 		zoom: 1;
 		overflow: hidden;
 		
-		.montname,
+		.monthname,
 		.month-digit {
 			display: none;
 		}
@@ -707,17 +707,22 @@ $button-bgcolor: #f5f5f5;
 			padding: em(0.5) em(2);
 			
 			> button {
-        padding: em(5.5) 0;
-      }
+				padding: em(5.5) 0;
+			}
 		}
 		
-		
-		&.time-list td {
-		  padding: em(1) em(5);
-		  
-		  > button {
-        padding: em(6.85) 0;
-      }
+		&.time-list {
+			> .ws-picker-header > button > .monthname {
+				display: inline;
+			}
+			
+			td {
+				padding: em(1) em(5);
+				
+				> button {
+					padding: em(6.85) 0;
+				}
+			}
 		}
 
 
