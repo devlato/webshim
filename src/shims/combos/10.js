@@ -2939,7 +2939,7 @@ webshims.register('dom-extend', function($, webshims, window, document, undefine
 								popover.preventBlur();
 							}
 						},
-						mousedown: function(){
+						mousedown: function(e){
 							mouseFocus = true;
 							setTimeout(resetMouseFocus, 9);
 							if(options.buttonOnly && popover.isVisible && popover.activeElement){
