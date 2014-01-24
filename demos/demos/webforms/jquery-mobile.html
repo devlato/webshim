@@ -5,13 +5,15 @@
 	<meta charset="utf-8"/>
 	<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
 	
-	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.0-rc.1/jquery.mobile-1.4.0-rc.1.min.css">
-<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
-<script src="http://code.jquery.com/mobile/1.4.0-rc.1/jquery.mobile-1.4.0-rc.1.min.js"></script>
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.0/jquery.mobile-1.4.0.min.css" />
+	<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+	
+	<!-- jQM: add jQM *before* webshim's polyfiller.js -->
+	<script src="http://code.jquery.com/mobile/1.4.0/jquery.mobile-1.4.0.min.js"></script>
 	
 	<script src="../../demo-js/src/modernizr-special.js"></script>
 	
-	<script src="../../js-webshim/minified/polyfiller.js"></script>
+	<script src="../../../js-webshim/minified/polyfiller.js"></script>
 	
 	<!-- jQM: make some small style adjustments -->
 	<style>
@@ -41,15 +43,19 @@
 		}
 		
 		@media (min-width: 28em) {
+			.touch .input-picker {
+				font-size: 16px;
+			}
 			.ui-field-contain .ws-errorbox {
 				margin-left: 22%;
 			}
 		}
 		
 	</style>
-
+	 	
 	<script>
 		(function(){
+			//Modernizr.mq is not part of webshims' Modernizr build!
 			var assumeMobile = Modernizr.mq && (Modernizr.mq('(max-device-width: 768px)') || (Modernizr.touch && Modernizr.mq('(max-device-width: 124px)')));
 			
 			//jQM: set waitReady to false
@@ -74,18 +80,20 @@
 						appendTo: 'body',
 						position: {
 							my: 'center',
-							at: 'center'
+							at: 'center',
+							collision: 'fit'
 						}
 					}
 				}
 			});
 		})();
 		
+		//jQM: set wsdoc to active page or false
+		webshims.setOptions('wsdoc', $('.ui-page-active').updatePolyfill().get(0) || false);
 		
-		
-		
-		//jQM: update polyfills on pageinit
+		//jQM: update polyfills on pageinit and change active page
 		$(document).on('pageinit', function(e){
+			webshims.setOptions('wsdoc', e.target);
 			$(e.target).updatePolyfill();
 		});
 		
@@ -108,7 +116,7 @@
 		</div> 
 		<div data-role="content">
 			<p>Webshims and jQuery mobile do a lot of tricks with form elements, which can conflict with each other. This page demonstrates how both libaries can be combined. Please read the source code and watch out for comments marked with <code>JQM:</code>.</p>
-			<form action="jquery-mobile.html" class="ws-instantvalidation">
+			<form action="jquery-mobile.html" class="ws-validate">
 				<div data-role="fieldcontain">
 					<label for="textinput1">
 						email*:

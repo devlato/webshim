@@ -145,7 +145,7 @@
 					<li><strong>overridePlaceholder</strong> (boolean): </li>
 					<li><strong>iVal</strong> (mixed options): options for the Instant/Live form validation feature (<a href="webforms/1-webforms-lang-custom-bubble.html#instant-validation">see</a>)</li>
 					<li><strong>addValidators</strong> (boolean): <code>false</code> (default) || <code>true</code>: Should Webshims implement some new custom validators. see: <a href="webforms/4-webforms-custom-validity.html">custom validity</a> </li>
-					<li><strong>list</strong> (options): <code>{}</code> (default): {filter: '*'|'^'|'!', highlight: false|true, focus: false|true, valueCompletion: false|true, multiple: false|true, position: {}}.</li>
+					<li><strong>list</strong> (options): <code>{}</code> (default): {filter: '*'|'^'|'!', highlight: false|true, focus: false|true, valueCompletion: false|true, multiple: false|true, position: {}}. <a href="cfgs/list-datalist.html">example</a></li>
 					<li><strong>fixRangeChange</strong> (boolean): <code>false</code> (default) || <code>true</code>: Wether or not to fix the change event on input[type="range"] especially in Chrome/Safari (input event fix for IE10/11 is always done).</li>
 				</ul>
 				
@@ -154,13 +154,13 @@
 					<li><strong>replaceUI</strong> (boolean): <code>false</code> (default) || <code>true</code>. If replaceUI is set to true the number, time, month, date <!--, datetime --> and range Widgets are replaced in all browsers (also in browser, which have implemented these types). This is useful, if you want to style the UI in all browsers.</li>
 					<li><strong>types</strong> (string): <code>'datetime-local month date time range number'</code>. A white space seperated string. Possible values are: datetime-local range date time number month color (Note: color is left out from the default string). If one of the listed input types is not supported. Webshims will load the forms-ext API and UI package and implement all types.</li>
 					<li><strong>widgets</strong> (options): widgets is a general options object for all input options. For more information see <a href="webforms/3-webforms-widgets.html#configure-ui">here</a> </li>
-					<li><strong>date</strong> (options): for more information see <a href="webforms/3-webforms-widgets.html#date-cfg">here</a></li>
-					<!--<li><strong>datetime-local</strong> (options): for more information see <a href="webforms/3-webforms-widgets.html#datetime-local-cfg">here</a></li>-->
-					<li><strong>month</strong> (options): for more information see <a href="webforms/3-webforms-widgets.html#month-cfg">here</a></li>
-					<li><strong>number</strong> (options): for more information see <a href="webforms/3-webforms-widgets.html#number-cfg">here</a></li>
-					<li><strong>time</strong> (options): for more information see <a href="webforms/3-webforms-widgets.html#time-cfg">here</a></li>
-					<li><strong>range</strong> (options): for more information see <a href="webforms/3-webforms-widgets.html#range-cfg">here</a></li>
-					<li><strong>color</strong> (options): </li>
+					<li><strong>date</strong> (options): for more information see <a href="cfgs/input-date.html">here</a></li>
+					<li><strong>datetime-local</strong> (options): for more information see <a href="cfgs/input-datetime-local.html">here</a></li>
+					<li><strong>month</strong> (options): for more information see <a href="cfgs/input-month.html">here</a></li>
+					<li><strong>number</strong> (options): for more information see <a href="cfgs/input-number.html">here</a></li>
+					<li><strong>time</strong> (options): for more information see <a href="cfgs/input-time.html">here</a></li>
+					<li><strong>range</strong> (options): for more information see <a href="cfgs/input-range.html">here</a></li>
+					<li><strong>color</strong> (options): for more information see <a href="cfgs/input-color.html">here</a></li>
 				</ul>
 				
 				<h3>Extensions/Abstractions to the standard</h3>

@@ -14,3 +14,4 @@ demos/demo-js/node_modules/*
 .DS_Store
 .sass-cache
 Thumbs.db
+.idea
