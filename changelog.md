@@ -1,10 +1,24 @@
+Release 1.12.1
+----------
+
+- improved intelligent calculation of basePath (now works with async loaded and renamed polyfiller, too)
+- fixed regression in IE8 on input type date prev/next buttons (https://github.com/aFarkas/webshim/issues/340)
+- added tooFixed option for input type=number (a good base for a currency input [demo](http://afarkas.github.io/webshim/demos/demos/cfgs/input-number.html#min=0&step=0.01&stepfactor=1000&toFixed=2))
+- added predefined styling configurations for mutliple widgets ([range](http://afarkas.github.io/webshim/demos/demos/cfgs/input-range.html#&max=50&list=range-list&show-activelabeltooltip=on&show-tickvalues=on), [date](http://afarkas.github.io/webshim/demos/demos/cfgs/input-date.html#startView=2&splitInput=on&calculateWidth=on&show-week=on&hide-btnrow=on&hide-spinbtns=on&inputbtns-outside=on))
+- added yearSelect/monthSelect [and daySelect] option to type=month/date pickers ([month](http://afarkas.github.io/webshim/demos/demos/cfgs/input-month.html#yearSelect=on&monthSelect=on&placeholder=yyyy-mm&min=2014-02&max=2020-01&monthNames=monthNamesShort))
+- added noInlineValue to list/datalist ([demo](http://afarkas.github.io/webshim/demos/demos/cfgs/list-datalist.html#list=state-list&filter=^&highlight=on&noInlineValue=on))
+- improved descriptive errormessage markup
+- trigger invalid event on form element itself (only in polyfilled browsers)
+- new stepbase calculation using defaultValue if min isn't applied (only in polyfilled browsers)
+
+
 Release 1.12.0
 ----------
 
 - new dir structure for bower (:root/js-webshim is the new folder for build js. :root/demos/js-webshim will be removed with next realease)
 - all locale js files are fetched using XHR (use setOptions('ajax', {crossDomain: true}) to disable)
 - transfer JS options for many pickers to CSS (i.e.: showWeek: true -> .input-picker .ws-week {display: table-cell})
-- fixed fieldset:disabled implementation (wow, each version of IE behaves different + IE11 is worse than IE10!)
+- fixed fieldset:disabled implementation [demo](http://jsfiddle.net/trixta/K8EPm/)
 - improved styles for type=range, datalist and progress element
 - most widgets are em scalable (base font is 13px)
 - fixed data-errormessage attribute
