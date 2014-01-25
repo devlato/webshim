@@ -5,8 +5,15 @@
  *
  * Dual licensed under the MIT and GPLv2 licenses.
  */
-(function( jQuery, undefined ) {
 
+(function(factory){
+	if(window.jQuery){
+		factory(jQuery);
+	} else if(window.webshims){
+		webshims.ready('jquery', factory);
+	}
+})(function( jQuery ) {
+var undefined;
 var push = Array.prototype.push,
     rcheck = /^(?:radio|checkbox)$/i,
     rplus = /\+/g,
@@ -129,7 +136,7 @@ jQuery.fn.deserialize = function( data, options ) {
                 current = element[ j ];
 
                 if ( current.value == value ) {
-                    change.call( current, ( $.prop(current, 'property', true) ) && value );
+                    change.call( current, ( $.prop(current, property, true) ) && value );
                 }
             }
         }
@@ -140,4 +147,4 @@ jQuery.fn.deserialize = function( data, options ) {
     return this;
 };
 
-})( jQuery );
+});
