@@ -75,7 +75,7 @@ webshims.register('form-validators', function($, webshims, window, document, und
 			$(elem).setCustomValidity(message);
 			blockCustom = false;
 		};
-		if(customMismatchedRule || validity.valid || (data.dependentValidation && !data.dependentValidation._init)){
+		if(customMismatchedRule || validity.valid){
 			val = $(elem).val();
 			$.each(customValidityRules, function(name, test){
 				message = test(elem, val, data, setMessage) || '';
@@ -315,16 +315,16 @@ webshims.register('form-validators', function($, webshims, window, document, und
 							this.restartAjax = false;
 							this.ajaxLoading = true;
 							$.ajax(
-									$.extend({}, opts, {
-										url: opts.url,
-										dataType: 'json',
-										depData: remoteData,
-										data: formCFG.fullRemoteForm || opts.fullForm ? 
-											$(elem).jProp('form').serializeArray() : 
-											remoteData,
-										success: this.getResponse,
-										complete: this._complete
-									})
+								$.extend({}, opts, {
+									url: opts.url,
+									dataType: 'json',
+									depData: remoteData,
+									data: formCFG.fullRemoteForm || opts.fullForm ?
+										$(elem).jProp('form').serializeArray() :
+										remoteData,
+									success: this.getResponse,
+									complete: this._complete
+								})
 							);
 						}
 					},

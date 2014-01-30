@@ -311,7 +311,7 @@ output {
 datalist {
   display: none; }
 
-input[ws-list]::-webkit-calendar-picker-indicator {
+input[data-wslist]::-webkit-calendar-picker-indicator {
   display: none; }
 
 .datalist-polyfill {
@@ -402,8 +402,7 @@ input[ws-list]::-webkit-calendar-picker-indicator {
   .ws-errorbox p {
     margin: 2px 0 3px;
     padding: 0;
-    color: #933;
-    font: 90%/120% sans-serif; }
+    color: #a94442; }
 
 progress {
   position: relative;

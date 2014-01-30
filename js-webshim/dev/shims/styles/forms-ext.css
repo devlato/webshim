@@ -259,6 +259,9 @@ input[type="color"] {
     text-align: center;
     display: inline-block; }
 
+span.ws-input {
+  display: inline-block; }
+
 .ws-date .mm,
 .ws-date .dd {
   width: 23.5%;
