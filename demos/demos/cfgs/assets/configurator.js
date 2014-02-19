@@ -27,10 +27,10 @@ $(function($){
 				}
 				if(!$.isEmptyObject(data.data)){
 					if(configType[1] == 'json'){
-						data.attr['data-'+ data.attr.type] = data.data;
+						data.attr['data-'+ data.cfgtype] = data.data;
 					} else {
 						$.each(data.data, function(name, val){
-							data.attr['data-'+ data.attr.type +'-'+name.replace(normalName, nameFn)] = val;
+							data.attr['data-'+ data.cfgtype +'-'+name.replace(normalName, nameFn)] = val;
 						});
 					}
 				}
@@ -40,7 +40,7 @@ $(function($){
 					data.data.classes = data.classes.join(' ');
 				}
 				if(!$.isEmptyObject(data.data)){
-					obj[configType[1] == 'type' ? data.attr.type : 'widgets'] = data.data;
+					obj[configType[1] == 'type' ? data.cfgtype : 'widgets'] = data.data;
 					code += '<script>\n';
 					code += '//configure before calling webshims.polyfill\n';
 					code += 'webshims.setOptions("'+cfgFeature+'", ';
@@ -122,11 +122,17 @@ $(function($){
 	});
 	
 	$('form.input-widget').each(function(){
+		var lastState;
 		var form = $(this);
 		var type = form.data('type');
 		var createWidget = function(){
+			var curState = form.serialize();
 			var output = {};
 			var input = $('<input />');
+			if(curState === lastState){
+				return;
+			}
+			lastState = curState;
 			if(type){
 				input.attr('type', type);
 			}
@@ -187,10 +193,13 @@ $(function($){
 					input.addClass('form-control '+output.classes.join(' ')).prop('id', type)
 				)
 			;
-			output.attr.type = type;
+			if(!output.attr.type){
+				output.attr.type = type;
+			}
+			output.cfgtype = type;
 			$('#code').trigger('render', [output]);
 			if(location.replace){
-				location.replace('#'+ form.serialize());
+				location.replace('#'+ curState);
 			}
 		};
 		$('> fieldset', form).on('change input', (function(){
